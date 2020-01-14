@@ -1,6 +1,9 @@
 const express = require('express')
+let bodyParser = require("body-parser");
 const app = express()
 const port = 8080
+
+    app.use(bodyParser.json());
 
     // GET method route
     app.get('/', function (req, res) {
@@ -13,6 +16,7 @@ const port = 8080
     })
 
     app.post('/profile/update', function (req, res) {
+        console.log(req.body)
         res.send('Received')
     })
 
