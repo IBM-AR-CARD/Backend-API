@@ -16,9 +16,8 @@ const port = 8080
     })
 
     app.post('/profile/update', function (req, res) {
-        console.log("OKKK")
         console.log(req.body)
-        res.send('Received')
+        res.send('Received, profile updated.')
     })
 
     app.get('/profile/get', function (req, res) {
