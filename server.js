@@ -41,9 +41,9 @@ const port = 8080
             education : "I have studied at University of Humberside, on Field Of StudyInformation Systems. And received a 2:1 Grade",
             gender : 2
         }
-        db.dbUpdate("profiles", {dummyid: "dummy1"}, obj);
+        db.dbInsert("profiles", obj);
         res.status(200)
-        res.json(obj)
+        res.json("SUCCESS")
     })
 
 
