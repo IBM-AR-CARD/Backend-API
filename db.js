@@ -8,7 +8,7 @@ MongoClient.connect(url, function(err, db) {
 });
 
 
-function insertOne(collection, content){
+function dbInsert(collection, content){
 
     dbo.collection(collection).insertOne(content, function(err, res) {
         if (err) throw err;
@@ -19,7 +19,7 @@ function insertOne(collection, content){
 }
 
 
-function find(collection, query){
+function dbFind(collection, query){
     return new Promise(function(resolve, reject) {
         collection.find(query).toArray(function(err, items) {
             if (err) {
@@ -29,5 +29,34 @@ function find(collection, query){
               resolve(items);
             }   
         }); 
+    });
+}
+
+
+
+function dbDelete(collection, query){
+    return new Promise(function(resolve, reject) {
+        dbo.collection(collection).deleteOne(query, function(err, obj) {
+            if (err) {
+                reject(err);
+              } else {
+                console.log("1 document deleted!");
+                resolve();
+              }   
+          });
+    });
+}
+
+
+function dbUpdate(collection, query, newValue){
+    return new Promise(function(resolve, reject) {
+        dbo.collection(collection).updateOne(query, newValue, function(err, obj) {
+            if (err) {
+                reject(err);
+              } else {
+                console.log("1 document updated!");
+                resolve();
+              }   
+          });
     });
 }
