@@ -1,5 +1,6 @@
 const express = require('express')
 let bodyParser = require("body-parser");
+let db = require('./db.js');
 const app = express()
 const port = 8080
 
@@ -22,8 +23,15 @@ const port = 8080
     })
 
     app.get('/profile/get', function (req, res) {
+        
+        res.status(200)
+        res.json(obj)
+    })
+
+    //generate dummy db data
+    app.get('/profile/generate', function (req, res) {
         let obj = {
-            id: "uniqueID",
+            dummyid: "dummy1",
             username: "jonmcnamara",
             profile: "https://media-exp2.licdn.com/dms/image/C5603AQFA_oQhi6-2Cg/profile-displayphoto-shrink_800_800/0?e=1584576000&v=beta&t=QfVEJg5DU7IHXBiUlaZ2nRjI5gHTqok20eL17iHHa8Y",
             firstname : "John",
@@ -33,8 +41,11 @@ const port = 8080
             education : "I have studied at University of Humberside, on Field Of StudyInformation Systems. And received a 2:1 Grade",
             gender : 2
         }
+        db.dbUpdate("profiles", {dummyid: "dummy1"}, obj);
         res.status(200)
         res.json(obj)
     })
+
+
 
     app.listen(port, () => console.log(`app listening on port ${port}!`))

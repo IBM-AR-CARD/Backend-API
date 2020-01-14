@@ -10,10 +10,16 @@ MongoClient.connect(url, function(err, db) {
 
 function dbInsert(collection, content){
 
-    dbo.collection(collection).insertOne(content, function(err, res) {
-        if (err) throw err;
-        console.log("1 document inserted!");
-        db.close();
+    return new Promise(function(resolve, reject) {
+        dbo.collection(collection).insertOne(content, function(err, items) {
+            if (err) {
+                console.error(err);
+                reject(err);
+            } else {
+                console.log("1 document inserted!");
+                resolve();
+            }   
+        }); 
     });
 
 }
@@ -21,12 +27,13 @@ function dbInsert(collection, content){
 
 function dbFind(collection, query){
     return new Promise(function(resolve, reject) {
-        collection.find(query).toArray(function(err, items) {
+        dbo.collection(collection).find(query).toArray(function(err, items) {
             if (err) {
-              reject(err);
+                console.error(err);
+                reject(err);
             } else {
-              console.log(items);
-              resolve(items);
+                console.log(items);
+                resolve(items);
             }   
         }); 
     });
@@ -38,6 +45,7 @@ function dbDelete(collection, query){
     return new Promise(function(resolve, reject) {
         dbo.collection(collection).deleteOne(query, function(err, obj) {
             if (err) {
+                console.error(err);
                 reject(err);
               } else {
                 console.log("1 document deleted!");
@@ -48,10 +56,11 @@ function dbDelete(collection, query){
 }
 
 
-function dbUpdate(collection, query, newValue){
+ function dbUpdate(collection, query, newValue){
     return new Promise(function(resolve, reject) {
-        dbo.collection(collection).updateOne(query, newValue, function(err, obj) {
+        dbo.collection(collection).updateOne(query, newValue, {upsert: true}, function(err, obj) {
             if (err) {
+                console.error(err);
                 reject(err);
               } else {
                 console.log("1 document updated!");
