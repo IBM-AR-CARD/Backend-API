@@ -12,7 +12,7 @@ MongoClient.connect(url, function(err, db) {
 
 module.exports = {
 
-    dbFind: function (collection, query){
+    dbFind: async function (collection, query){
         return new Promise(function(resolve, reject) {
             dbo.collection(collection).find(query).toArray(function(err, items) {
                 if (err) {
@@ -58,7 +58,8 @@ module.exports = {
     },
 
 
-    dbUpdate: function(collection, query, newValue){
+    dbUpdate: async function(collection, query, newValue){
+
         return new Promise(function(resolve, reject) {
             dbo.collection(collection).updateOne(query, newValue, function(err, obj) {
                 if (err) {

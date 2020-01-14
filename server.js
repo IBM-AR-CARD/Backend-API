@@ -16,16 +16,25 @@ const port = 8080
         res.send('POST request to the homepage')
     })
 
-    app.post('/profile/update', function (req, res) {
+    app.post('/profile/update', async function (req, res) {
         console.log(req.body)
         console.log(req.body.description)
-        res.send('Received, profile updated.')
+            
+        try {
+            await db.dbUpdate("profiles", {_id : req.body._id}, req.body)
+            res.send('Received, profile updated.')
+        } catch (error) {
+            res.send(error)
+        }
+    
     })
 
-    app.get('/profile/get', function (req, res) {
+    app.get('/profile/get', async function (req, res) {
+
+        let obj = await db.dbFind("profiles", {})
         
         res.status(200)
-        res.json(obj)
+        res.json(obj[1])
     })
 
     //generate dummy db data
