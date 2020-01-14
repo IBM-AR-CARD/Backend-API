@@ -28,8 +28,8 @@ const port = 8080
             education : "I have studied at University of Humberside, on Field Of StudyInformation Systems. And received a 2:1 Grade",
             gender : 2
         }
-
-        res.send(JSON.stringify(obj))
+        res.status(200)
+        res.json(obj)
     })
 
     app.listen(port, () => console.log(`app listening on port ${port}!`))
