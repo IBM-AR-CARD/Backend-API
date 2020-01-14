@@ -1,0 +1,23 @@
+{
+  "name": "backend-api",
+  "version": "1.0.0",
+  "description": "IBM AR CARD BACKEND",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IBM-AR-CARD/Backend-API.git"
+  },
+  "author": "Team 13",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IBM-AR-CARD/Backend-API/issues"
+  },
+  "homepage": "https://github.com/IBM-AR-CARD/Backend-API#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
