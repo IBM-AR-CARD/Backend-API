@@ -70,6 +70,7 @@ module.exports = {
                         console.error(err);
                         reject(err);
                       } else {
+                        console.log(newValue)
                         console.log("dbUpdate - 1 document updated! id: " + newValue._id);
                         resolve();
                       }   
