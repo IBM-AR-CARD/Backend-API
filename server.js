@@ -4,6 +4,8 @@ let db = require('./db.js');
 const app = express()
 const port = 8080
 
+let ObjectID = require('mongodb').ObjectID;
+
     app.use(bodyParser.json());
 
     // GET method route
@@ -19,7 +21,7 @@ const port = 8080
     app.post('/profile/update', async function (req, res) {
             
         try {
-            await db.dbUpdate("profiles", {_id : req.body._id}, req.body)
+            await db.dbUpdate("profiles", {_id : ObjectID(req.body._id)}, req.body)
             res.send('Received, profile updated.')
         } catch (error) {
             res.send(error)
