@@ -34,7 +34,7 @@ const port = 8080
         let obj = await db.dbFind("profiles", {})
         
         res.status(200)
-        res.json(obj[1])
+        res.json(obj[0])
     })
 
     //generate dummy db data
