@@ -19,7 +19,7 @@ module.exports = {
                     console.error(err);
                     reject(err);
                 } else {
-                    console.log(items);
+                    console.log("items found.");
                     resolve(items);
                 }   
             }); 
@@ -66,7 +66,7 @@ module.exports = {
                     console.error(err);
                     reject(err);
                   } else {
-                    console.log("1 document updated!");
+                    console.log("1 document updated! id: " + newValue._id);
                     resolve();
                   }   
               });
