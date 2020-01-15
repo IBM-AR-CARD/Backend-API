@@ -17,8 +17,6 @@ const port = 8080
     })
 
     app.post('/profile/update', async function (req, res) {
-        console.log(req.body)
-        console.log(req.body.description)
             
         try {
             await db.dbUpdate("profiles", {_id : req.body._id}, req.body)
