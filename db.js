@@ -4,7 +4,7 @@ let dbo = null;
 
 MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    dbo = db.db("mydb");
+    dbo = db.db("ar_card_db");
 });
 
 
@@ -19,7 +19,7 @@ module.exports = {
                     console.error(err);
                     reject(err);
                 } else {
-                    console.log("dbFind - items found. query:", query);
+                    console.log("dbFind - items found. query: ", query);
                     resolve(items);
                 }   
             }); 
@@ -33,7 +33,7 @@ module.exports = {
                     console.error(err);
                     reject(err);
                   } else {
-                    console.log("dbDelete - 1 document deleted!");
+                    console.log("dbDelete - 1 document deleted! query: ", query);
                     resolve();
                   }   
               });
