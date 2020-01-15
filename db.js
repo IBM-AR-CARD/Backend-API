@@ -60,6 +60,8 @@ module.exports = {
 
     dbUpdate: async function(collection, query, newValue){
 
+        delete newValue._id;
+
         return new Promise(function(resolve, reject) {
             dbo.collection(collection).updateOne(
                 query,
