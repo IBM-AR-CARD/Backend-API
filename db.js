@@ -19,7 +19,7 @@ module.exports = {
                     console.error(err);
                     reject(err);
                 } else {
-                    console.log("items found.");
+                    console.log("dbFind - items found. query:", query);
                     resolve(items);
                 }   
             }); 
@@ -33,7 +33,7 @@ module.exports = {
                     console.error(err);
                     reject(err);
                   } else {
-                    console.log("1 document deleted!");
+                    console.log("dbDelete - 1 document deleted!");
                     resolve();
                   }   
               });
@@ -49,7 +49,7 @@ module.exports = {
                     console.error(err);
                     reject(err);
                 } else {
-                    console.log("1 document inserted!");
+                    console.log("dbInsert - 1 document inserted!");
                     resolve();
                 }   
             }); 
@@ -66,7 +66,7 @@ module.exports = {
                     console.error(err);
                     reject(err);
                   } else {
-                    console.log("1 document updated! id: " + newValue._id);
+                    console.log("dbUpdate - 1 document updated! id: " + newValue._id);
                     resolve();
                   }   
               });
