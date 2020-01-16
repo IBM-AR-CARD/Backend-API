@@ -73,8 +73,8 @@ let ObjectID = require('mongodb').ObjectID;
 
         try{
             console.log("add history of id ", req.query._id)
-            await db.dbUpdate("history", {userid : req.query._id}, {userid: req.query._id} ,{ $pull: { history: {userid:req.body.userid} } } )
-            await db.dbUpdate("history", {userid : req.query._id}, {userid: req.query._id} ,{ $push: { history: req.body }} )
+            await db.dbUpdate("history", {userid : req.query._id}, { $set : {userid: req.query._id}, $pull: { history: {userid:req.body.userid} } } )
+            await db.dbUpdate("history", {userid : req.query._id}, { $set : {userid: req.query._id}, $push: { history: req.body } } )
             
             res.status(200)
             res.send("history updated")
