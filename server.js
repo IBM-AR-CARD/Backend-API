@@ -21,7 +21,7 @@ let ObjectID = require('mongodb').ObjectID;
     app.post('/profile/update', async function (req, res) {
             
         try {
-            db.dbUpdate("profiles", {_id : ObjectID(req.body._id)}, req.body)
+            db.dbUpdate("profiles", {_id : ObjectID(req.body._id)}, { $set : req.body })
             res.send('Received, profile updated.')
         } catch (error) {
             res.send(error)
@@ -73,7 +73,8 @@ let ObjectID = require('mongodb').ObjectID;
 
         try{
             console.log("add history of id ", req.query._id)
-            let obj = await db.dbUpdate("history", {userid : req.query._id}, {userid: req.query._id} ,{ history: req.body } )
+            await db.dbUpdate("history", {userid : req.query._id}, {userid: req.query._id} ,{ $pull: { history: {userid:req.body.userid} } } )
+            await db.dbUpdate("history", {userid : req.query._id}, {userid: req.query._id} ,{ $push: { history: req.body }} )
             
             res.status(200)
             res.send("history updated")
