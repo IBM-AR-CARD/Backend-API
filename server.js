@@ -52,7 +52,7 @@ let ObjectID = require('mongodb').ObjectID;
         }
         db.dbInsert("profiles", obj);
         res.status(200)
-        res.json("SUCCESS")
+        res.json('SUCCESS')
     })
 
 
@@ -84,5 +84,18 @@ let ObjectID = require('mongodb').ObjectID;
         }
     })
 
+
+    app.get('/history/remove', async function (req, res) {
+
+        try{
+            console.log("removing history of id ", req.query._id)
+            await db.dbUpdate("history", {userid : req.query._id}, { $set : {userid: req.query._id}, $pull: { history: {userid:req.query.userid} } } )            
+            res.status(200)
+            res.send("history might be removed")
+        } catch (error) {
+            res.status(500)
+            res.send(error)
+        }
+    })
 
     app.listen(port, () => console.log(`app listening on port ${port}!`))
