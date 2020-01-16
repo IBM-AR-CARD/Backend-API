@@ -21,7 +21,7 @@ let ObjectID = require('mongodb').ObjectID;
     app.post('/profile/update', async function (req, res) {
             
         try {
-            db.dbUpdate("profiles", {_id : ObjectID(req.body._id)}, { $set : req.body })
+            await db.dbUpdate("profiles", {_id : ObjectID(req.body._id)}, { $set : req.body })
             res.send('Received, profile updated.')
         } catch (error) {
             res.send(error)

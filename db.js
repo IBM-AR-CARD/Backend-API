@@ -59,7 +59,7 @@ module.exports = {
 
     dbUpdate: async function(collection, query, update){
 
-        delete update._id;
+        delete update.$set._id;
 
         return new Promise(function(resolve, reject) {
             dbo.collection(collection).updateOne(
