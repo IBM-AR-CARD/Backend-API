@@ -57,14 +57,14 @@ module.exports = {
     },
 
 
-    dbUpdate: async function(collection, query, newValue){
+    dbUpdate: async function(collection, query, newValue, valueToPush){
 
         delete newValue._id;
 
         return new Promise(function(resolve, reject) {
             dbo.collection(collection).updateOne(
                 query,
-                { $set: newValue },
+                { $set: newValue , $push: valueToPush},
                 { upsert: true },
                 function(err, obj) {
                     if (err) {
