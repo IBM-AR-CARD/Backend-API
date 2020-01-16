@@ -57,4 +57,27 @@ let ObjectID = require('mongodb').ObjectID;
 
 
 
+    app.get('/history/get', async function (req, res) {
+
+        console.log("get history of id ", req.body._id)
+        let obj = await db.dbFind("history", {userid : ObjectID(req.body._id)})
+        
+        res.status(200)
+        res.json(obj)
+    })
+
+
+
+    app.post('/history/add', async function (req, res) {
+
+
+            console.log("add history of id ", req.query.id)
+            let obj = await db.dbUpdate("history", {userid : ObjectID(req.body._id)}, { $push: { history: req.body } } )
+            
+            res.status(200)
+            res.send("should be updated")
+        
+    })
+
+
     app.listen(port, () => console.log(`app listening on port ${port}!`))
