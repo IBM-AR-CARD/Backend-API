@@ -4,7 +4,7 @@ let dbo = null;
 
 MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    dbo = db.db("ar_card_db");
+    dbo = db.db("ar_card_db", {useNewUrlParser: true, useUnifiedTopology: true});
 });
 
 
