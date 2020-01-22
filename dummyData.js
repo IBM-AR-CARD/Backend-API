@@ -58,7 +58,7 @@ module.exports = {
   getHistoryDummy: function(userid) {
     return {
       userid: userid ? userid : "dummy",
-      history: [
+      list: [
         generateHistoryProfile(),
         generateHistoryProfile(),
         generateHistoryProfile(),
