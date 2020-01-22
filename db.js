@@ -13,18 +13,15 @@ MongoClient.connect(url, function(err, db) {
 module.exports = {
   dbFind: async function(collection, query) {
     return new Promise(function(resolve, reject) {
-      dbo
-        .collection(collection)
-        .find(query)
-        .toArray(function(err, items) {
-          if (err) {
-            console.error(err);
-            reject(err);
-          } else {
-            console.log("dbFind - items found. query: ", query);
-            resolve(items);
-          }
-        });
+      dbo.collection(collection).findOne(query, function(err, items) {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          console.log("dbFind - items found. query: ", query);
+          resolve(items);
+        }
+      });
     });
   },
 
@@ -36,6 +33,20 @@ module.exports = {
           reject(err);
         } else {
           console.log("dbDelete - 1 document deleted! query: ", query);
+          resolve();
+        }
+      });
+    });
+  },
+
+  dbDeleteMany: function(collection, query) {
+    return new Promise(function(resolve, reject) {
+      dbo.collection(collection).deleteMany(query, function(err, obj) {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          console.log("dbDeleteMany - deleted! query: ", query);
           resolve();
         }
       });

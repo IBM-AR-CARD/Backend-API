@@ -38,7 +38,7 @@ app.get("/profile/get", async function(req, res) {
   let obj = await db.dbFind("profiles", {});
 
   res.status(200);
-  res.json(obj[0]);
+  res.json(obj);
 });
 
 //------------- History API -------------
@@ -101,7 +101,7 @@ app.get("/history/remove", async function(req, res) {
   }
 });
 
-//------------- Dummy data generator -------------
+//------------- Dummy data generator and remover (dev only) -------------
 
 app.get("/profile/generate", function(req, res) {
   db.dbInsert("profiles", dummy.getProileDummy());
@@ -110,7 +110,9 @@ app.get("/profile/generate", function(req, res) {
 });
 
 app.get("/history/generate", function(req, res) {
-  db.dbInsert("history", dummy.getHistoryDummy());
+  let id = req.query.id ? req.query.id : "dummy";
+  db.dbDeleteMany("history", { userid: id });
+  db.dbInsert("history", dummy.getHistoryDummy(id));
   res.status(200);
   res.json("SUCCESS");
 });
