@@ -19,6 +19,8 @@ app.post("/", function(req, res) {
   res.send("POST request to the homepage");
 });
 
+//------------- Profile API -------------
+
 app.post("/profile/update", async function(req, res) {
   try {
     await db.dbUpdate(
@@ -39,12 +41,7 @@ app.get("/profile/get", async function(req, res) {
   res.json(obj[0]);
 });
 
-//generate dummy db data
-app.get("/profile/generate", function(req, res) {
-  db.dbInsert("profiles", dummy.getProileDummy());
-  res.status(200);
-  res.json("SUCCESS");
-});
+//------------- History API -------------
 
 app.get("/history/get", async function(req, res) {
   console.log("get history of id ", req.query._id);
@@ -102,6 +99,20 @@ app.get("/history/remove", async function(req, res) {
     res.status(500);
     res.send(error);
   }
+});
+
+//------------- Dummy data generator -------------
+
+app.get("/profile/generate", function(req, res) {
+  db.dbInsert("profiles", dummy.getProileDummy());
+  res.status(200);
+  res.json("SUCCESS");
+});
+
+app.get("/history/generate", function(req, res) {
+  db.dbInsert("history", dummy.getHistoryDummy());
+  res.status(200);
+  res.json("SUCCESS");
 });
 
 app.listen(port, () => console.log(`app listening on port ${port}!`));

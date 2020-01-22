@@ -1,3 +1,41 @@
+function getRandomProfileImage(male) {
+  let gender = male ? "men" : "women";
+  let url = `https://randomuser.me/api/portraits/${gender}/${Math.floor(
+    Math.random() * 30
+  ) + 1}.jpg`;
+  return url;
+}
+
+const randomFrom = arr => {
+  return arr[Math.floor(Math.random() * arr.length)];
+};
+
+function generateHistoryProfile() {
+  let name = randomFrom([
+    "Jerry",
+    "Leo",
+    "Yide Fan",
+    "John",
+    "Henry",
+    "Davies"
+  ]);
+  let description = randomFrom([
+    "Student",
+    "Software Developer",
+    "Sales",
+    "Management",
+    "Professor",
+    "Doctor"
+  ]);
+
+  return {
+    name: name,
+    description: description,
+    avatar: getRandomProfileImage(randomFrom(["men", "women"])),
+    country: "UK"
+  };
+}
+
 module.exports = {
   getProileDummy: function() {
     return {
@@ -17,7 +55,17 @@ module.exports = {
     };
   },
 
-  getHistoryDummy: function() {
-    return [{}];
+  getHistoryDummy: function(userid) {
+    return {
+      userid: userid ? userid : "dummy",
+      history: [
+        generateHistoryProfile(),
+        generateHistoryProfile(),
+        generateHistoryProfile(),
+        generateHistoryProfile(),
+        generateHistoryProfile(),
+        generateHistoryProfile()
+      ]
+    };
   }
 };

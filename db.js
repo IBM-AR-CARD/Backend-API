@@ -44,7 +44,7 @@ module.exports = {
 
   dbInsert: function(collection, content) {
     return new Promise(function(resolve, reject) {
-      dbo.collection(collection).insertOne(content, function(err, items) {
+      dbo.collection(collection).insert(content, function(err, items) {
         if (err) {
           console.error(err);
           reject(err);
