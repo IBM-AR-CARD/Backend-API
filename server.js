@@ -37,8 +37,13 @@ app.post("/profile/update", async function(req, res) {
 app.get("/profile/get", async function(req, res) {
   let obj = await db.dbFind("profiles", {});
 
-  res.status(200);
-  res.json(obj);
+  if (obj) {
+    res.status(200);
+    res.json(obj);
+  } else {
+    res.status(400);
+    res.json("Not Found");
+  }
 });
 
 //------------- History API -------------
@@ -47,8 +52,13 @@ app.get("/history/get", async function(req, res) {
   console.log("get history of id ", req.query._id);
   let obj = await db.dbFind("history", { userid: req.query._id });
 
-  res.status(200);
-  res.json(obj);
+  if (obj) {
+    res.status(200);
+    res.json(obj);
+  } else {
+    res.status(400);
+    res.json("Not Found");
+  }
 });
 
 app.post("/history/add", async function(req, res) {
@@ -101,6 +111,21 @@ app.get("/history/remove", async function(req, res) {
   }
 });
 
+//------------- Favorite API -------------
+
+app.get("/favorite/get", async function(req, res) {
+  console.log("get favorite of id ", req.query._id);
+  let obj = await db.dbFind("favorite", { userid: req.query._id });
+
+  if (obj) {
+    res.status(200);
+    res.json(obj);
+  } else {
+    res.status(400);
+    res.json("Not Found");
+  }
+});
+
 //------------- Dummy data generator and remover (dev only) -------------
 
 app.get("/profile/generate", function(req, res) {
@@ -110,11 +135,19 @@ app.get("/profile/generate", function(req, res) {
 });
 
 app.get("/history/generate", function(req, res) {
-  let id = req.query.id ? req.query.id : "dummy";
+  let id = req.query._id ? req.query._id : "dummy";
   db.dbDeleteMany("history", { userid: id });
   db.dbInsert("history", dummy.getHistoryDummy(id));
   res.status(200);
   res.json("SUCCESS");
 });
 
-app.listen(port, () => console.log(`app listening on port ${port}!`));
+app.get("/favorite/generate", function(req, res) {
+  let id = req.query._id ? req.query._id : "dummy";
+  db.dbDeleteMany("favorite", { userid: id });
+  db.dbInsert("favorite", dummy.getHistoryDummy(id));
+  res.status(200);
+  res.json("SUCCESS");
+});
+
+app.listen(port, () => console.log(`App listening on port ${port}!`));
