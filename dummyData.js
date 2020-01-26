@@ -37,7 +37,7 @@ function generateHistoryProfile() {
 }
 
 module.exports = {
-  getProileDummy: function() {
+  getProileDummy1: function() {
     return {
       dummyid: "dummy1",
       username: "jonmcnamara",
@@ -51,6 +51,42 @@ module.exports = {
         "Senior Inventor at IBM and Hursley Innovation Labs Technologist Lead",
       education:
         "I have studied at University of Humberside, on Field Of StudyInformation Systems. And received a 2:1 Grade",
+      gender: 2
+    };
+  },
+
+  getProileDummy2: function() {
+    return {
+      dummyid: "dummy2",
+      username: "amy-pajak",
+      profile:
+        "https://media-exp2.licdn.com/dms/image/C4D03AQExd7JsyU2Tpg/profile-displayphoto-shrink_200_200/0?e=1585785600&v=beta&t=p7hUIBZicJePvZmsWMxnXsMmr8JXF1viJ3t7P8YcL_g",
+      firstname: "Amy",
+      lastname: "Pajak",
+      description:
+        "Second year student at the University of Birmingham reading BSc Artificial Intelligence and Computer Science with Industrial Year. Passionate for code. I possess necessary programming skills and well-developed social skills. Flexible attitude to work and strong organisational skills for a variety of situations to achieve deadlines. Strong initiative and can work independently or as part of a team. ",
+      experience:
+        "Software Developer Placement at IBM. Placement year as L3 Support Engineer in cloud and cognitive software primarily working in C++ and Java.",
+      education:
+        "I have studied at University of Birmingham. Pursuing Degree NameBachelor of Science - BSField Of Study. I have studied Artificial Intelligence and Computer Science, Data Structures and Algorithms, Databases, Java Project, C/C++. Currently at my Second year - Achieved 2:1.",
+      gender: 1
+    };
+  },
+
+  getProileDummy3: function() {
+    return {
+      dummyid: "dummy3",
+      username: "ben-jones",
+      profile:
+        "https://media-exp2.licdn.com/dms/image/C4D03AQEjXfWTiKt73Q/profile-displayphoto-shrink_200_200/0?e=1585785600&v=beta&t=1zaOuMMabdVx5ozcYR8KHOBSkjl_K83H7mQCKxdcfH8",
+      firstname: "Ben",
+      lastname: "Jones",
+      description:
+        "Hi, My Name is Ben Jones, I am a Marketing Undergraduate who is currently working at IBM on placement as a UK&I and MEA Recruitment - Attraction, Employer Branding & Events Co-ordinator.",
+      experience:
+        "Student ambassador at As a student ambassador I work in the university in a number ways: I have been a mentor for students; worked in the university outreach program; and been part of the marketing and communications team on open days giving presentations and conducting campus tours. During this time I have been promoted from a student ambassador to a student leader. Next year I am also going to be vlogging for the university as part of their marketing campaign.",
+      education:
+        "I have studied at Bournemouth University. Pursuing Degree NameBachelor of Science - BSField Of Study. ",
       gender: 2
     };
   },

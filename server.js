@@ -129,7 +129,9 @@ app.get("/favorite/get", async function(req, res) {
 //------------- Dummy data generator and remover (dev only) -------------
 
 app.get("/profile/generate", function(req, res) {
-  db.dbInsert("profiles", dummy.getProileDummy());
+  db.dbInsert("profiles", dummy.getProileDummy1());
+  db.dbInsert("profiles", dummy.getProileDummy2());
+  db.dbInsert("profiles", dummy.getProileDummy3());
   res.status(200);
   res.json("SUCCESS");
 });
