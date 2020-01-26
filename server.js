@@ -34,15 +34,37 @@ app.post("/profile/update", async function(req, res) {
   }
 });
 
+async function findProfile(body) {
+  let query = {};
+  if (body._id) query._id = body._id;
+  if (body.username) query.username = body.username;
+
+  let obj = await db.dbFind("profiles", query);
+  return obj;
+}
+
 app.get("/profile/get", async function(req, res) {
-  let obj = await db.dbFind("profiles", {});
+  let obj = await findProfile(req.query);
+
+  if (obj) {
+    res.status(200);
+    res.send(`Want to view ${obj.firstname}'s AR Avatar? Download our app!`);
+  } else {
+    res.status(400);
+    res.send("Not Found");
+  }
+});
+
+app.post("/profile/get", async function(req, res) {
+  console.log("profile get request from id " + req.body._id);
+  let obj = await findProfile(req.query);
 
   if (obj) {
     res.status(200);
     res.json(obj);
   } else {
     res.status(400);
-    res.json("Not Found");
+    res.send("Not Found");
   }
 });
 
@@ -57,7 +79,7 @@ app.get("/history/get", async function(req, res) {
     res.json(obj);
   } else {
     res.status(400);
-    res.json("Not Found");
+    res.send("Not Found");
   }
 });
 
@@ -122,7 +144,7 @@ app.get("/favorite/get", async function(req, res) {
     res.json(obj);
   } else {
     res.status(400);
-    res.json("Not Found");
+    res.send("Not Found");
   }
 });
 
@@ -133,7 +155,7 @@ app.get("/profile/generate", function(req, res) {
   db.dbInsert("profiles", dummy.getProileDummy2());
   db.dbInsert("profiles", dummy.getProileDummy3());
   res.status(200);
-  res.json("SUCCESS");
+  res.send("SUCCESS");
 });
 
 app.get("/history/generate", function(req, res) {
@@ -141,7 +163,7 @@ app.get("/history/generate", function(req, res) {
   db.dbDeleteMany("history", { userid: id });
   db.dbInsert("history", dummy.getHistoryDummy(id));
   res.status(200);
-  res.json("SUCCESS");
+  res.send("SUCCESS");
 });
 
 app.get("/favorite/generate", function(req, res) {
@@ -149,7 +171,7 @@ app.get("/favorite/generate", function(req, res) {
   db.dbDeleteMany("favorite", { userid: id });
   db.dbInsert("favorite", dummy.getHistoryDummy(id));
   res.status(200);
-  res.json("SUCCESS");
+  res.send("SUCCESS");
 });
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
