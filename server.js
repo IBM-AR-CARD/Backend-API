@@ -1,72 +1,20 @@
 const express = require("express");
 let bodyParser = require("body-parser");
-let db = require("./db.js");
-let dummy = require("./dummyData.js");
 const app = express();
 const port = 8080;
+
+let db = require("./include/db.js");
+let dummy = require("./include/dummyData.js");
 
 let ObjectID = require("mongodb").ObjectID;
 
 app.use(bodyParser.json());
 
-// GET method route
-app.get("/", function(req, res) {
-  res.send("GET request to the homepage");
-});
+// Home page
+app.use(require("./routes/index"));
 
-// POST method route
-app.post("/", function(req, res) {
-  res.send("POST request to the homepage");
-});
-
-//------------- Profile API -------------
-
-app.post("/profile/update", async function(req, res) {
-  try {
-    await db.dbUpdate(
-      "profiles",
-      { _id: ObjectID(req.body._id) },
-      { $set: req.body }
-    );
-    res.send("Received, profile updated.");
-  } catch (error) {
-    res.send(error);
-  }
-});
-
-async function findProfile(body) {
-  let query = {};
-  if (body._id) query._id = ObjectID(body._id);
-  if (body.username) query.username = body.username;
-
-  let obj = await db.dbFind("profiles", query);
-  return obj;
-}
-
-app.get("/profile/get", async function(req, res) {
-  let obj = await findProfile(req.query);
-
-  if (obj) {
-    res.status(200);
-    res.send(`Want to view ${obj.firstname}'s AR Avatar? Download our app!`);
-  } else {
-    res.status(400);
-    res.send("Not Found");
-  }
-});
-
-app.post("/profile/get", async function(req, res) {
-  console.log("profile get request from id " + req.body._id);
-  let obj = await findProfile(req.query);
-
-  if (obj) {
-    res.status(200);
-    res.json(obj);
-  } else {
-    res.status(400);
-    res.send("Not Found");
-  }
-});
+// profile API
+app.use("/profile", require("./routes/profile"));
 
 //------------- History API -------------
 
