@@ -36,7 +36,7 @@ app.post("/profile/update", async function(req, res) {
 
 async function findProfile(body) {
   let query = {};
-  if (body._id) query._id = body._id;
+  if (body._id) query._id = ObjectID(body._id);
   if (body.username) query.username = body.username;
 
   let obj = await db.dbFind("profiles", query);
