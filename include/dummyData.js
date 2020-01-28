@@ -45,7 +45,7 @@ module.exports = {
         "https://media-exp2.licdn.com/dms/image/C5603AQFA_oQhi6-2Cg/profile-displayphoto-shrink_800_800/0?e=1584576000&v=beta&t=QfVEJg5DU7IHXBiUlaZ2nRjI5gHTqok20eL17iHHa8Y",
       firstname: "John",
       lastname: "McNamara",
-      model: "",
+      model: "TestMale",
       description:
         "John is a Senior Inventor, Research Fellow, Impact Fellow and currently provides technical leadership for the IBM Hursley Innovation Centre. John has a diverse background that includes consultancy, performance, service & product delivery, all underpinned by a passion for innovation. Most recently his work leading the Innovation Centre technologist team has allowed him to combine these interests in order to maximise the potential of new technology while solving real problems. John has overseen the delivery of many cognitive cloud-based solutions and understands how to combine technologies to quickly provide value for customers. John is an active inventor with an invention portfolio spanning mobile, A.I, messaging, integration and predictive analytics.",
       experience:
@@ -64,6 +64,7 @@ module.exports = {
         "https://media-exp2.licdn.com/dms/image/C4D03AQExd7JsyU2Tpg/profile-displayphoto-shrink_200_200/0?e=1585785600&v=beta&t=p7hUIBZicJePvZmsWMxnXsMmr8JXF1viJ3t7P8YcL_g",
       firstname: "Amy",
       lastname: "Pajak",
+      model: "BusinessFemale",
       description:
         "Second year student at the University of Birmingham reading BSc Artificial Intelligence and Computer Science with Industrial Year. Passionate for code. I possess necessary programming skills and well-developed social skills. Flexible attitude to work and strong organisational skills for a variety of situations to achieve deadlines. Strong initiative and can work independently or as part of a team. ",
       experience:
@@ -82,6 +83,7 @@ module.exports = {
         "https://media-exp2.licdn.com/dms/image/C4D03AQEjXfWTiKt73Q/profile-displayphoto-shrink_200_200/0?e=1585785600&v=beta&t=1zaOuMMabdVx5ozcYR8KHOBSkjl_K83H7mQCKxdcfH8",
       firstname: "Ben",
       lastname: "Jones",
+      model: "SmartMale",
       description:
         "Hi, My Name is Ben Jones, I am a Marketing Undergraduate who is currently working at IBM on placement as a UK&I and MEA Recruitment - Attraction, Employer Branding & Events Co-ordinator.",
       experience:
