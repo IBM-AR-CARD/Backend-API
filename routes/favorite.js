@@ -7,7 +7,7 @@ let ObjectID = require("mongodb").ObjectID;
 
 router.get("/get", async function(req, res) {
   console.log("get favorite of id ", req.query._id);
-  let obj = await db.dbFind("favorite", { userid: "dummy" });
+  let obj = await db.dbFind("favorite", { userid: "dummy" }); //req.query._id
 
   if (obj) {
     res.status(200);
