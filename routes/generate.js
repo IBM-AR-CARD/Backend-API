@@ -6,7 +6,10 @@ let dummy = require("../include/dummyData.js");
 
 //------------- Dummy data generator and remover (dev only) -------------
 
-router.get("/profile", function(req, res) {
+router.get("/profile", async function(req, res) {
+  await dummy.removeProfileDummy(db, "dummy1");
+  await dummy.removeProfileDummy(db, "dummy2");
+  await dummy.removeProfileDummy(db, "dummy3");
   db.dbInsert("profiles", dummy.getProileDummy1());
   db.dbInsert("profiles", dummy.getProileDummy2());
   db.dbInsert("profiles", dummy.getProileDummy3());

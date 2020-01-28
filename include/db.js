@@ -68,7 +68,7 @@ module.exports = {
   },
 
   dbUpdate: async function(collection, query, update) {
-    delete update.$set._id;
+    if (update.$set) delete update.$set._id;
 
     return new Promise(function(resolve, reject) {
       dbo
