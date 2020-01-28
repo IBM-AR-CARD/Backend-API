@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 let db = require("../include/db.js");
 let ObjectID = require("mongodb").ObjectID;
-let dummy = require("./include/dummyData.js");
+let dummy = require("../include/dummyData.js");
 
 //------------- Dummy data generator and remover (dev only) -------------
 
