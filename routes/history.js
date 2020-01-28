@@ -7,7 +7,7 @@ let ObjectID = require("mongodb").ObjectID;
 
 router.get("/get", async function(req, res) {
   console.log("get history of id ", req.query._id);
-  let obj = await db.dbFind("history", { userid: req.query._id });
+  let obj = await db.dbFind("history", { userid: "dummy" });
 
   if (obj) {
     res.status(200);
