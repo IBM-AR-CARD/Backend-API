@@ -12,9 +12,13 @@ router.post("/update", async function(req, res) {
       { _id: ObjectID(req.body._id) },
       { $set: req.body }
     );
+    res.status(200);
     res.send("Received, profile updated.");
   } catch (error) {
-    res.send(error);
+    res.status(500);
+    res.json({
+      error: error
+    });
   }
 });
 
@@ -35,7 +39,9 @@ router.get("/get", async function(req, res) {
     res.send(`Want to view ${obj.firstname}'s AR Avatar? Download our router!`);
   } else {
     res.status(400);
-    res.send("Not Found");
+    res.json({
+      error: "not-found"
+    });
   }
 });
 
@@ -48,7 +54,9 @@ router.post("/get", async function(req, res) {
     res.json(obj);
   } else {
     res.status(400);
-    res.send("Not Found");
+    res.json({
+      error: "not-found"
+    });
   }
 });
 

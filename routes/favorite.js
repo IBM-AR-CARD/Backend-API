@@ -14,7 +14,9 @@ router.get("/get", async function(req, res) {
     res.json(obj);
   } else {
     res.status(400);
-    res.send("Not Found");
+    res.json({
+      error: "not-found"
+    });
   }
 });
 
