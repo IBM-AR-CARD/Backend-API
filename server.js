@@ -17,6 +17,9 @@ app.use("/history", require("./routes/history"));
 // favorite API
 app.use("/favorite", require("./routes/favorite"));
 
+// user API
+app.use("/user", require("./routes/user"));
+
 // dummy data generator API (dev only)
 app.use("/generate", require("./routes/generate"));
 

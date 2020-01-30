@@ -50,6 +50,7 @@ router.post("/get", async function(req, res) {
   let obj = await findProfile(req.query);
 
   if (obj) {
+    delete obj.password;
     res.status(200);
     res.json(obj);
   } else {
