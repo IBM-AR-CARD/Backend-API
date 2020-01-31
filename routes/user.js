@@ -3,8 +3,12 @@ const router = express.Router();
 let db = require("../include/db.js");
 let ObjectID = require("mongodb").ObjectID;
 let dummy = require("../include/dummyData.js");
-const validator = require("validator");
 
+const validator = require("validator");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+// ------------------ user registration api ------------------
 router.post("/register", async function(req, res) {
   let newUser = {};
   console.log(req.body);
@@ -20,14 +24,20 @@ router.post("/register", async function(req, res) {
 
   try {
     let findExisting = await db.dbFind("profiles", {
-      username: { $regex: new RegExp(newUser.username, "i") } // regex used for case insensitive
+      $or: [
+        { username: { $regex: new RegExp(newUser.username, "i") } },
+        { email: { $regex: new RegExp(newUser.email, "i") } }
+      ] // regex used for case insensitive
     });
 
     if (findExisting) {
-      return returnError("Username already exists", res);
+      return returnError("Username or email already exists", res);
     }
 
-    db.dbInsert("profiles", newUser);
+    //hash password
+    newUser.password = await bcrypt.hash(newUser.password, 8);
+
+    await db.dbInsert("profiles", newUser);
 
     res.status(200);
     res.json({ success: "Successfully regisered, you can now log in." });
@@ -35,6 +45,8 @@ router.post("/register", async function(req, res) {
     return returnError(error, res);
   }
 });
+
+// ------------------ hepler functions ------------------
 
 function returnError(error, res) {
   res.status(500);
