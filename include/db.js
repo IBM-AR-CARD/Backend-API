@@ -1,7 +1,8 @@
 let MongoClient = require("mongodb").MongoClient;
 let dbo = null;
 
-MongoClient.connect(process.env.MONGODB_URL, function(err, db) {
+console.log(process.env.MONGODB_URL);
+MongoClient.connect("mongodb://localhost:27017/", function(err, db) {
   if (err) throw err;
   dbo = db.db("ar_card_db", {
     useNewUrlParser: true,
