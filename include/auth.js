@@ -14,14 +14,12 @@ const auth = async (req, res, next) => {
     if (!user) {
       throw new Error();
     }
-    req.user = (({ _id, username, email }) => ({ _id, username, email }))(user);
-    req.token = token;
+    req.jwt_user = (({ _id, username, email }) => ({ _id, username, email }))(user);
+    req.jwt_token = token;
     next();
   } catch (error) {
     console.log("!!Unauthorized!!");
-    res
-      .status(401)
-      .send({ error: "You are not authorized to access this resource" });
+    res.status(401).send({ error: "You are not authorized to access this resource" });
   }
 };
 module.exports = auth;

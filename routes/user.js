@@ -64,16 +64,10 @@ router.post("/login", async function(req, res) {
 
     if (!user) {
       console.log("User not found");
-      return returnError(
-        "Failed to log in, your email or password is incorrect",
-        res
-      );
+      return returnError("Failed to log in, your email or password is incorrect", res);
     }
 
-    const isPasswordMatch = await bcrypt.compare(
-      loginUser.password,
-      user.password
-    );
+    const isPasswordMatch = await bcrypt.compare(loginUser.password, user.password);
     if (!isPasswordMatch) {
       console.log("User password incorrect");
       return returnError("Failed to log in, your password is incorrect", res);
@@ -91,7 +85,7 @@ router.post("/login", async function(req, res) {
 
 // ------------------ jwt test ------------------
 router.get("/test-token", auth, async (req, res) => {
-  const user = req.user;
+  const user = req.jwt_user;
   res.json({ success: "token valid", user });
 });
 
@@ -129,10 +123,7 @@ function isInvalidUser(newUser, ignoreUsername) {
   if (!ignoreUsername && !validator.isAlphanumeric(newUser.username)) {
     return "Your username format is incorrect";
   }
-  if (
-    !ignoreUsername &&
-    !validator.isLength(newUser.username, { min: 3, max: 25 })
-  ) {
+  if (!ignoreUsername && !validator.isLength(newUser.username, { min: 3, max: 25 })) {
     return "Your username length is invalid";
   }
   if (!validator.isLength(newUser.password, { min: 5, max: 25 })) {
