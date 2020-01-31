@@ -91,7 +91,8 @@ router.post("/login", async function(req, res) {
 
 // ------------------ jwt test ------------------
 router.get("/test-token", auth, async (req, res) => {
-  res.json({ success: "token valid" });
+  const user = req.user;
+  res.json({ success: "token valid", user });
 });
 
 // ------------------ hepler functions ------------------
