@@ -8,6 +8,8 @@ const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+const auth = require("../include/auth");
+
 // ------------------ user registration api ------------------
 router.post("/register", async function(req, res) {
   let newUser = {};
@@ -85,6 +87,11 @@ router.post("/login", async function(req, res) {
     console.log(error);
     return returnError(error, res);
   }
+});
+
+// ------------------ jwt test ------------------
+router.get("/test-token", auth, async (req, res) => {
+  res.json({ success: "token valid" });
 });
 
 // ------------------ hepler functions ------------------
