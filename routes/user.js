@@ -12,12 +12,11 @@ const jwt = require("jsonwebtoken");
 router.post("/register", async function(req, res) {
   let newUser = {};
   console.log(req.body);
-  //clean this mess later using mongoose schema
   newUser.username = req.body.username;
   newUser.email = req.body.email;
   newUser.password = req.body.password;
 
-  let isInvalid = isInvalidNewUser(newUser);
+  let isInvalid = isInvalidUser(newUser);
   if (isInvalid) {
     return returnError(isInvalid, res);
   }
@@ -46,6 +45,45 @@ router.post("/register", async function(req, res) {
   }
 });
 
+// ------------------ user login api ------------------
+router.post("/login", async function(req, res) {
+  let loginUser = {};
+  console.log(req.body);
+  loginUser.email = req.body.email;
+  loginUser.password = req.body.password;
+
+  let isInvalid = isInvalidUser(loginUser, true);
+  if (isInvalid) {
+    return returnError(isInvalid, res);
+  }
+
+  try {
+    const user = await await db.dbFind("profiles", { email: loginUser.email });
+
+    if (!user) {
+      console.log("User not found");
+      return returnError(
+        "Failed to log in, your email or password is incorrect",
+        res
+      );
+    }
+
+    const isPasswordMatch = await bcrypt.compare(
+      loginUser.password,
+      user.password
+    );
+    if (!isPasswordMatch) {
+      console.log("User password incorrect");
+      return returnError("Failed to log in, your password is incorrect", res);
+    }
+
+    res.status(200);
+    res.json({ success: "Successfully logged in." });
+  } catch (error) {
+    return returnError(error, res);
+  }
+});
+
 // ------------------ hepler functions ------------------
 
 function returnError(error, res) {
@@ -55,9 +93,8 @@ function returnError(error, res) {
   });
 }
 
-function isInvalidNewUser(newUser) {
-  let invalid = null;
-  if (validator.isEmpty(newUser.username)) {
+function isInvalidUser(newUser, ignoreUsername) {
+  if (!ignoreUsername && validator.isEmpty(newUser.username)) {
     return "Username cannot be empty";
   }
   if (validator.isEmpty(newUser.email)) {
@@ -69,10 +106,13 @@ function isInvalidNewUser(newUser) {
   if (!validator.isEmail(newUser.email)) {
     return "Your email address format is incorrect";
   }
-  if (!validator.isAlphanumeric(newUser.username)) {
+  if (!ignoreUsername && !validator.isAlphanumeric(newUser.username)) {
     return "Your username format is incorrect";
   }
-  if (!validator.isLength(newUser.username, { min: 3, max: 25 })) {
+  if (
+    !ignoreUsername &&
+    !validator.isLength(newUser.username, { min: 3, max: 25 })
+  ) {
     return "Your username length is invalid";
   }
   if (!validator.isLength(newUser.password, { min: 5, max: 25 })) {
