@@ -7,6 +7,7 @@ let dummy = require("../include/dummyData.js");
 router.post("/register", async function(req, res) {
   let newUser = {};
   console.log(req.body);
+  //clean this mess later using mongoose schema
   newUser.username = req.body.username
     ? req.body.username
     : returnError("Invalid", res);
@@ -28,7 +29,7 @@ router.post("/register", async function(req, res) {
     db.dbInsert("profiles", newUser);
 
     res.status(200);
-    res.json({ success: "Successfully regisered, please now log in." });
+    res.json({ success: "Successfully regisered, you can now log in." });
   } catch (error) {
     returnError(error, res);
   }
