@@ -58,7 +58,7 @@ router.post("/login", async function(req, res) {
   }
 
   try {
-    const user = await await db.dbFind("profiles", { email: loginUser.email });
+    const user = await db.dbFind("profiles", { email: loginUser.email });
 
     if (!user) {
       console.log("User not found");
@@ -77,9 +77,12 @@ router.post("/login", async function(req, res) {
       return returnError("Failed to log in, your password is incorrect", res);
     }
 
+    let token = await signJWT(user);
+
     res.status(200);
-    res.json({ success: "Successfully logged in." });
+    res.json({ success: "Successfully logged in.", token: token });
   } catch (error) {
+    console.log(error);
     return returnError(error, res);
   }
 });
@@ -91,6 +94,15 @@ function returnError(error, res) {
   return res.json({
     error: error
   });
+}
+
+async function signJWT(user) {
+  const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY);
+  if (!user.tokens) user.tokens = [];
+  if (user.tokens.length >= 2) user.tokens.shift();
+  user.tokens = user.tokens.concat(token);
+  await db.dbUpdate("profiles", { _id: ObjectID(user._id) }, { $set: user }); //store jwt
+  return token;
 }
 
 function isInvalidUser(newUser, ignoreUsername) {

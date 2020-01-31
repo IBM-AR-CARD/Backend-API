@@ -51,6 +51,8 @@ router.post("/get", async function(req, res) {
 
   if (obj) {
     delete obj.password;
+    delete obj.email;
+    delete obj.tokens;
     res.status(200);
     res.json(obj);
   } else {
