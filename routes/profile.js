@@ -7,15 +7,11 @@ let ObjectID = require("mongodb").ObjectID;
 
 router.post("/update", async function(req, res) {
   try {
-    await db.dbUpdate(
-      "profiles",
-      { _id: ObjectID(req.body._id) },
-      { $set: req.body }
-    );
+    await db.dbUpdate("profiles", { _id: ObjectID(req.body._id) }, { $set: req.body });
     res.status(200);
     res.send("Received, profile updated.");
   } catch (error) {
-    res.status(500);
+    res.status(400);
     res.json({
       error: error
     });

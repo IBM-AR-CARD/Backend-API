@@ -100,7 +100,7 @@ router.post("/logout", auth, async (req, res) => {
     res.status(200).send({ success: "You are logged out" });
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+    res.status(400).send(error);
   }
 });
 
@@ -111,7 +111,7 @@ router.post("/logout-all", auth, async (req, res) => {
     await db.dbUpdate("profiles", { _id: ObjectID(req.jwt_user._id) }, { $set: req.jwt_user });
     res.status(200).send({ success: "You are logged out of all devices" });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(400).send(error);
   }
 });
 //ref http://bit.ly/2GErhno
@@ -119,7 +119,7 @@ router.post("/logout-all", auth, async (req, res) => {
 // ------------------ hepler functions ------------------
 
 function returnError(error, res) {
-  res.status(500);
+  res.status(400);
   return res.json({
     error: error
   });

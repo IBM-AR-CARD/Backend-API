@@ -44,7 +44,7 @@ router.post("/add", async function(req, res) {
     res.status(200);
     res.send("history updated");
   } catch (error) {
-    res.status(500);
+    res.status(400);
     res.send(error);
   }
 });
@@ -63,7 +63,7 @@ router.get("/remove", async function(req, res) {
     res.status(200);
     res.send("history might be removed");
   } catch (error) {
-    res.status(500);
+    res.status(400);
     res.send(error);
   }
 });
