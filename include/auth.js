@@ -3,6 +3,7 @@ let db = require("./db.js");
 let ObjectID = require("mongodb").ObjectID;
 
 const auth = async (req, res, next) => {
+  console.log("------ jwt auth start ------");
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
     const data = jwt.verify(token, process.env.JWT_KEY);
@@ -14,8 +15,9 @@ const auth = async (req, res, next) => {
     if (!user) {
       throw new Error();
     }
-    req.jwt_user = (({ _id, username, email }) => ({ _id, username, email }))(user);
+    req.jwt_user = (({ _id, username, email, tokens }) => ({ _id, username, email, tokens }))(user);
     req.jwt_token = token;
+    console.log("------ jwt auth end ------");
     next();
   } catch (error) {
     console.log("!!Unauthorized!!");

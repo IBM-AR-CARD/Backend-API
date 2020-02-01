@@ -89,6 +89,33 @@ router.get("/test-token", auth, async (req, res) => {
   res.json({ success: "token valid", user });
 });
 
+// ------------------ user logout api ------------------
+router.post("/logout", auth, async (req, res) => {
+  // Log user out of the application
+  try {
+    req.jwt_user.tokens = req.jwt_user.tokens.filter(token => {
+      return token != req.jwt_token;
+    });
+    await db.dbUpdate("profiles", { _id: ObjectID(req.jwt_user._id) }, { $set: req.jwt_user });
+    res.status(200).send({ success: "You are logged out" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+router.post("/logout-all", auth, async (req, res) => {
+  // Log user out of all devices
+  try {
+    req.jwt_user.tokens = [];
+    await db.dbUpdate("profiles", { _id: ObjectID(req.jwt_user._id) }, { $set: req.jwt_user });
+    res.status(200).send({ success: "You are logged out of all devices" });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+//ref http://bit.ly/2GErhno
+
 // ------------------ hepler functions ------------------
 
 function returnError(error, res) {
