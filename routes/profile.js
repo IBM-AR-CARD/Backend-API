@@ -28,34 +28,42 @@ async function findProfile(body) {
 }
 
 router.get("/get", async function(req, res) {
-  let obj = await findProfile(req.query);
+  try {
+    let obj = await findProfile(req.query);
 
-  if (obj) {
-    res.status(200);
-    res.send(`Want to view ${obj.firstname}'s AR Avatar? Download our router!`);
-  } else {
-    res.status(400);
-    res.json({
-      error: "not-found"
-    });
+    if (obj) {
+      res.status(200);
+      res.send(`Want to view ${obj.firstname}'s AR Avatar? Download our router!`);
+    } else {
+      res.status(400);
+      res.json({
+        error: "not-found"
+      });
+    }
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 
 router.post("/get", async function(req, res) {
-  console.log("profile get request from id " + req.body._id);
-  let obj = await findProfile(req.query);
+  try {
+    console.log("profile get request from id " + req.body._id);
+    let obj = await findProfile(req.query);
 
-  if (obj) {
-    delete obj.password;
-    delete obj.email;
-    delete obj.tokens;
-    res.status(200);
-    res.json(obj);
-  } else {
-    res.status(400);
-    res.json({
-      error: "not-found"
-    });
+    if (obj) {
+      delete obj.password;
+      delete obj.email;
+      delete obj.tokens;
+      res.status(200);
+      res.json(obj);
+    } else {
+      res.status(400);
+      res.json({
+        error: "not-found"
+      });
+    }
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 
