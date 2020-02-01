@@ -6,15 +6,19 @@ let ObjectID = require("mongodb").ObjectID;
 //------------- History API -------------
 
 router.get("/get", async function(req, res) {
-  console.log("get history of id ", req.query._id);
-  let obj = await db.dbFind("history", { userid: "dummy" }); //req.query._id
+  try {
+    console.log("get history of id ", req.query._id);
+    let obj = await db.dbFind("history", { userid: "dummy" }); //req.query._id
 
-  if (obj) {
-    res.status(200);
-    res.json(obj);
-  } else {
-    res.status(400);
-    res.send("Not Found");
+    if (obj) {
+      res.status(200);
+      res.json(obj);
+    } else {
+      res.status(400);
+      res.send("Not Found");
+    }
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 
