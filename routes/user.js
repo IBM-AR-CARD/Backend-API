@@ -73,10 +73,11 @@ router.post("/login", async function(req, res) {
       return returnError("Failed to log in, your password is incorrect", res);
     }
 
+    let user_id = user._id;
     let token = await signJWT(user);
 
     res.status(200);
-    res.json({ success: "Successfully logged in.", token: token });
+    res.json({ success: "Successfully logged in.", _id: user_id, token: token });
   } catch (error) {
     console.log(error);
     return returnError(error, res);
