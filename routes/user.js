@@ -62,7 +62,9 @@ router.post("/login", async function(req, res) {
   }
 
   try {
-    const user = await db.dbFind("profiles", { email: loginUser.email });
+    const user = await db.dbFind("profiles", {
+      email: { $regex: new RegExp(loginUser.email, "i") }
+    });
 
     if (!user) {
       console.log("User not found");
@@ -151,13 +153,13 @@ function isInvalidUser(newUser, ignoreUsername) {
     return "Your email address format is incorrect";
   }
   if (!ignoreUsername && !validator.isAlphanumeric(newUser.username)) {
-    return "Your username format is incorrect";
+    return "Your username format is incorrect, please enter number and characters only";
   }
   if (!ignoreUsername && !validator.isLength(newUser.username, { min: 3, max: 25 })) {
-    return "Your username length is invalid";
+    return "Your username length is invalid, the length should be between 3 and 25 characters";
   }
   if (!validator.isLength(newUser.password, { min: 5, max: 25 })) {
-    return "Your password length is invalid";
+    return "Your password length is invalid, the length should be between 5 and 25 characters";
   }
 }
 
