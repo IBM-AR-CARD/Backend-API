@@ -38,6 +38,8 @@ router.post("/register", async function(req, res) {
     //hash password
     newUser.password = await bcrypt.hash(newUser.password, 8);
 
+    newUser = Object.assign({}, newUser, dummy.getEmptyProfile());
+
     await db.dbInsert("profiles", newUser);
 
     res.status(200);
