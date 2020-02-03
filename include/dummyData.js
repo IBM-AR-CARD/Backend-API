@@ -46,6 +46,8 @@ module.exports = {
     return {
       dummyid: "dummy1",
       username: "jonmcnamara",
+      email: "john@ucl.ac.uk",
+      password: "$2a$08$C4AgFAgj8a0BCYZpCexqx.Tl8p42.hSs6Jm7guc9oBWx3N928zU0q", //content: password
       profile:
         "https://media-exp2.licdn.com/dms/image/C5603AQFA_oQhi6-2Cg/profile-displayphoto-shrink_800_800/0?e=1584576000&v=beta&t=QfVEJg5DU7IHXBiUlaZ2nRjI5gHTqok20eL17iHHa8Y",
       firstname: "John",
@@ -64,6 +66,8 @@ module.exports = {
     return {
       dummyid: "dummy2",
       username: "amy-pajak",
+      email: "amy@ucl.ac.uk",
+      password: "$2a$08$C4AgFAgj8a0BCYZpCexqx.Tl8p42.hSs6Jm7guc9oBWx3N928zU0q", //content: password
       profile:
         "https://media-exp2.licdn.com/dms/image/C4D03AQExd7JsyU2Tpg/profile-displayphoto-shrink_200_200/0?e=1585785600&v=beta&t=p7hUIBZicJePvZmsWMxnXsMmr8JXF1viJ3t7P8YcL_g",
       firstname: "Amy",
@@ -83,6 +87,8 @@ module.exports = {
     return {
       dummyid: "dummy3",
       username: "ben-jones",
+      email: "ben@ucl.ac.uk",
+      password: "$2a$08$C4AgFAgj8a0BCYZpCexqx.Tl8p42.hSs6Jm7guc9oBWx3N928zU0q", //content: password
       profile:
         "https://media-exp2.licdn.com/dms/image/C4D03AQEjXfWTiKt73Q/profile-displayphoto-shrink_200_200/0?e=1585785600&v=beta&t=1zaOuMMabdVx5ozcYR8KHOBSkjl_K83H7mQCKxdcfH8",
       firstname: "Ben",
