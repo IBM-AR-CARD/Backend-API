@@ -6,7 +6,7 @@ const auth = require("../include/auth");
 router.post("/", (req, res) => {
   try {
     const image = req.files.myFile;
-    const path = __dirname + "/images/" + image.name;
+    const path = __dirname + "/../uploads/" + image.name;
 
     image.mv(path, error => {
       if (error) {
@@ -15,7 +15,7 @@ router.post("/", (req, res) => {
         return;
       }
 
-      res.status(200).json({ success: "file uploaded", path: "/images/" + image.name });
+      res.status(200).json({ success: "file uploaded", path: path });
     });
   } catch (error) {
     res.status(400).json({ error: "bad request" });
