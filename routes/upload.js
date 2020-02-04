@@ -3,12 +3,22 @@ const router = express.Router();
 let db = require("../include/db.js");
 const auth = require("../include/auth");
 
-router.post("/", (req, res) => {
+router.post("/", auth, (req, res) => {
   try {
-    const image = req.files.myFile;
-    const path = __dirname + "/../uploads/" + image.name;
+    const mFile = req.files.file;
+    const rootDir = __dirname + "/../uploads/";
+    const dir = rootDir + req.jwt_user.username + "/";
+    const path = dir + mFile.name;
 
-    image.mv(path, error => {
+    const fs = require("fs");
+    if (!fs.existsSync(rootDir)) {
+      fs.mkdirSync(rootDir);
+    }
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
+
+    mFile.mv(path, error => {
       if (error) {
         console.error(error);
         res.status(400).json({ error: "error", message: error });
@@ -18,6 +28,7 @@ router.post("/", (req, res) => {
       res.status(200).json({ success: "file uploaded", path: path });
     });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: "bad request" });
   }
 });
