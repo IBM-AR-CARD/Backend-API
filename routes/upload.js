@@ -25,7 +25,9 @@ router.post("/", auth, (req, res) => {
         return;
       }
 
-      res.status(200).json({ success: "file uploaded", path: path });
+      res
+        .status(200)
+        .json({ success: "file uploaded", path: require("path").relative(process.cwd(), path) });
     });
   } catch (error) {
     console.log(error);

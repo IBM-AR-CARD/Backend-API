@@ -22,9 +22,9 @@ function generateHistoryProfile() {
 
   return {
     name: name,
-    description: description,
-    avatar: getRandomProfileImage(randomFrom(["men", "women"])),
-    country: "UK"
+    username: description,
+    profile: getRandomProfileImage(randomFrom(["men", "women"])),
+    userid: ""
   };
 }
 

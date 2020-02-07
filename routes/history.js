@@ -8,7 +8,17 @@ let ObjectID = require("mongodb").ObjectID;
 router.get("/get", async function(req, res) {
   try {
     console.log("get history of id ", req.query._id);
-    let obj = await db.dbFind("history", { userid: "dummy" }); //req.query._id
+    let id = req.query._id;
+    let obj = await db.dbFind("history", { userid: ObjectID(id) });
+    if (id != "dummy") {
+      await obj.history.array.forEach(async element => {
+        let user = await db.dbFind("profile", { _id: ObjectID(element.userid) });
+        element.name = user.firstname + " " + user.lastname;
+        element.profile = user.profile;
+        element.username = user.username;
+        element.userid = user._id;
+      });
+    }
 
     if (obj) {
       res.status(200);
