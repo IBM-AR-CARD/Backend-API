@@ -9,9 +9,9 @@ router.get("/get", async function(req, res) {
   try {
     console.log("get history of id ", req.query._id);
     let id = req.query._id;
-    let obj = await db.dbFind("history", { userid: ObjectID(id) });
-    if (id != "dummy") {
-      await obj.history.array.forEach(async element => {
+    let obj = await db.dbFind("history", { userid: id });
+    if (id != "dummy" && obj) {
+      await obj.history.forEach(async element => {
         let user = await db.dbFind("profile", { _id: ObjectID(element.userid) });
         element.name = user.firstname + " " + user.lastname;
         element.profile = user.profile;
@@ -20,15 +20,16 @@ router.get("/get", async function(req, res) {
       });
     }
 
-    if (obj) {
+    if (obj && obj != {}) {
       res.status(200);
       res.json(obj);
     } else {
       res.status(400);
-      res.send("Not Found");
+      res.send({ error: "Not Found" });
     }
   } catch (error) {
-    res.status(500).send(error);
+    console.log(error);
+    res.status(500).send({ error: error });
   }
 });
 
