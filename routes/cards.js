@@ -7,11 +7,11 @@ let ObjectID = require("mongodb").ObjectID;
 
 router.get("/get", async function(req, res) {
   try {
-    console.log("get history of id ", req.query._id);
+    console.log(`get ${req.target} of id`, req.query._id);
     let id = req.query._id;
-    let obj = await db.dbFind("history", { userid: id });
+    let obj = await db.dbFind(req.target, { userid: id });
     if (id != "dummy" && obj) {
-      await obj.history.forEach(async element => {
+      await obj[req.target].forEach(async element => {
         let user = await db.dbFind("profile", { _id: ObjectID(element.userid) });
         element.name = user.firstname + " " + user.lastname;
         element.profile = user.profile;
@@ -37,49 +37,49 @@ router.post("/add", async function(req, res) {
   console.log(req.body);
 
   try {
-    console.log("add history of id ", req.query._id);
+    console.log(`add ${req.target} of id `, req.query._id);
     await db.dbUpdate(
-      "history",
+      req.target,
       {
         userid: req.query._id
       },
       {
         $set: { userid: req.query._id },
         $pull: {
-          history: { userid: req.body.userid }
+          [req.target]: { userid: req.body.userid }
         }
       }
     );
     await db.dbUpdate(
-      "history",
+      req.target,
       { userid: req.query._id },
-      { $set: { userid: req.query._id }, $push: { history: req.body } }
+      { $set: { userid: req.query._id }, $push: { [req.target]: req.body } }
     );
 
     res.status(200);
-    res.send("history updated");
+    res.json({ success: `${req.target} updated` });
   } catch (error) {
     res.status(400);
-    res.send(error);
+    res.json({ error: error });
   }
 });
 
 router.get("/remove", async function(req, res) {
   try {
-    console.log("removing history of id ", req.query._id);
+    console.log(`removing ${req.target} of id `, req.query._id);
     await db.dbUpdate(
-      "history",
+      req.target,
       { userid: req.query._id },
       {
         $set: { userid: req.query._id },
-        $pull: { history: { userid: req.query.userid } }
+        $pull: { [req.target]: { userid: req.query.userid } }
       }
     );
     res.status(200);
-    res.send("history might be removed");
+    res.json({ success: `${req.target} might be removed` });
   } catch (error) {
     res.status(400);
-    res.send(error);
+    res.json({ error: error });
   }
 });
 
