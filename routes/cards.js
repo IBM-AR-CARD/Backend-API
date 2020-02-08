@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 let db = require("../include/db.js");
 let ObjectID = require("mongodb").ObjectID;
+const auth = require("../include/auth");
 
 //------------- History and Favourites API -------------
 
@@ -11,13 +12,13 @@ router.get("/get", async function(req, res) {
     let id = req.query._id;
     let obj = await db.dbFind(req.target, { userid: id });
     if (id != "dummy" && obj) {
-      await obj[req.target].forEach(async element => {
-        let user = await db.dbFind("profile", { _id: ObjectID(element.userid) });
+      for (let element of obj[req.target]) {
+        let user = await db.dbFind("profiles", { _id: ObjectID(element.userid) });
         element.name = user.firstname + " " + user.lastname;
         element.profile = user.profile;
         element.username = user.username;
         element.userid = user._id;
-      });
+      }
     }
 
     if (obj && obj != {}) {
