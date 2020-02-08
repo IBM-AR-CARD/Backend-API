@@ -3,7 +3,7 @@ const router = express.Router();
 let db = require("../include/db.js");
 let ObjectID = require("mongodb").ObjectID;
 
-//------------- History API -------------
+//------------- History and Favourites API -------------
 
 router.get("/get", async function(req, res) {
   try {

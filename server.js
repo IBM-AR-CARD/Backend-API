@@ -15,10 +15,24 @@ app.use(require("./routes/index"));
 app.use("/profile", require("./routes/profile"));
 
 // history API
-app.use("/history", require("./routes/history"));
+app.use(
+  "/history",
+  (req, res, next) => {
+    req.target = "history";
+    next();
+  },
+  require("./routes/cards")
+);
 
 // favorite API
-app.use("/favorite", require("./routes/favorite"));
+app.use(
+  "/favorite",
+  (req, res, next) => {
+    req.target = "favorite";
+    next();
+  },
+  require("./routes/cards")
+);
 
 // upload API
 app.use("/upload", require("./routes/upload"));
