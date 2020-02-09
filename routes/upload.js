@@ -26,12 +26,10 @@ router.post("/", auth, (req, res) => {
         return;
       }
 
-      res
-        .status(200)
-        .json({
-          success: "file uploaded",
-          path: SERVER_ADDRESS + "/uploads/" + userDir + mFile.name
-        });
+      res.status(200).json({
+        success: "file uploaded",
+        path: process.env.SERVER_ADDRESS + "/uploads/" + userDir + mFile.name
+      });
     });
   } catch (error) {
     console.log(error);
