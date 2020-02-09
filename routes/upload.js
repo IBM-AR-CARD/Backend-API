@@ -19,8 +19,6 @@ router.post("/", auth, (req, res) => {
       fs.mkdirSync(dir);
     }
 
-    console.log(req);
-
     mFile.mv(path, error => {
       if (error) {
         console.error(error);
