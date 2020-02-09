@@ -40,6 +40,9 @@ app.use("/upload", require("./routes/upload"));
 // user API
 app.use("/user", require("./routes/user"));
 
+// user API
+app.use("/chat", require("./routes/chat"));
+
 // dummy data generator API (dev only)
 app.use("/generate", require("./routes/generate"));
 
