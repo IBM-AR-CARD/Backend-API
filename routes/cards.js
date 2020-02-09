@@ -6,10 +6,10 @@ const auth = require("../include/auth");
 
 //------------- History and Favourites API -------------
 
-router.get("/get", async function(req, res) {
+router.get("/get", auth, async function(req, res) {
   try {
-    console.log(`get ${req.target} of id`, req.query._id);
-    let id = req.query._id;
+    let id = req.query._id == "dummy" ? "dummy" : req.jwt_user._id;
+    console.log(`get ${req.target} of id`, id);
     let obj = await db.dbFind(req.target, { userid: id });
     if (id != "dummy" && obj) {
       for (let element of obj[req.target]) {
@@ -34,27 +34,27 @@ router.get("/get", async function(req, res) {
   }
 });
 
-router.post("/add", async function(req, res) {
+router.post("/add", auth, async function(req, res) {
   console.log(req.body);
 
   try {
-    console.log(`add ${req.target} of id `, req.query._id);
+    console.log(`add ${req.target} of id `, req.jwt_user._id);
     await db.dbUpdate(
       req.target,
       {
-        userid: req.query._id
+        userid: req.jwt_user._id
       },
       {
-        $set: { userid: req.query._id },
+        $set: { userid: req.jwt_user._id },
         $pull: {
-          [req.target]: { userid: req.body.userid }
+          [req.target]: { userid: req.body.userid, _id: ObjectID() }
         }
       }
     );
     await db.dbUpdate(
       req.target,
-      { userid: req.query._id },
-      { $set: { userid: req.query._id }, $push: { [req.target]: req.body } }
+      { userid: req.jwt_user._id },
+      { $set: { userid: req.jwt_user._id }, $push: { [req.target]: req.body } }
     );
 
     res.status(200);
@@ -65,14 +65,14 @@ router.post("/add", async function(req, res) {
   }
 });
 
-router.get("/remove", async function(req, res) {
+router.get("/remove", auth, async function(req, res) {
   try {
-    console.log(`removing ${req.target} of id `, req.query._id);
+    console.log(`removing ${req.target} of id `, req.jwt_user._id);
     await db.dbUpdate(
       req.target,
-      { userid: req.query._id },
+      { userid: req.jwt_user._id },
       {
-        $set: { userid: req.query._id },
+        $set: { userid: req.jwt_user._id },
         $pull: { [req.target]: { userid: req.query.userid } }
       }
     );
