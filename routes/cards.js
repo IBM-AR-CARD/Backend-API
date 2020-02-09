@@ -47,14 +47,17 @@ router.post("/add", auth, async function(req, res) {
       {
         $set: { userid: req.jwt_user._id },
         $pull: {
-          [req.target]: { userid: req.body.userid, _id: ObjectID() }
+          [req.target]: { userid: req.body.userid }
         }
       }
     );
     await db.dbUpdate(
       req.target,
       { userid: req.jwt_user._id },
-      { $set: { userid: req.jwt_user._id }, $push: { [req.target]: req.body } }
+      {
+        $set: { userid: req.jwt_user._id },
+        $push: { [req.target]: { userid: req.body.userid, _id: ObjectID() } }
+      }
     );
 
     res.status(200);
@@ -65,7 +68,7 @@ router.post("/add", auth, async function(req, res) {
   }
 });
 
-router.get("/remove", auth, async function(req, res) {
+router.post("/remove", auth, async function(req, res) {
   try {
     console.log(`removing ${req.target} of id `, req.jwt_user._id);
     await db.dbUpdate(
@@ -73,7 +76,7 @@ router.get("/remove", auth, async function(req, res) {
       { userid: req.jwt_user._id },
       {
         $set: { userid: req.jwt_user._id },
-        $pull: { [req.target]: { userid: req.query.userid } }
+        $pull: { [req.target]: { userid: req.body.userid } }
       }
     );
     res.status(200);
