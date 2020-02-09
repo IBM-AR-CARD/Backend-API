@@ -6,7 +6,7 @@ const auth = require("../include/auth");
 router.post("/", auth, (req, res) => {
   try {
     const mFile = req.files.file;
-    const rootDir = __dirname + "/../uploads/";
+    const rootDir = __dirname + process.env.UPLOAD_FOLDER;
     const dir = rootDir + req.jwt_user.username + "/";
     const path = dir + mFile.name;
 
