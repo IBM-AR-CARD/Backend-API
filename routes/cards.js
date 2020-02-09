@@ -87,4 +87,22 @@ router.post("/remove", auth, async function(req, res) {
   }
 });
 
+router.post("/remove-all", auth, async function(req, res) {
+  try {
+    console.log(`removing all ${req.target} of id `, req.jwt_user._id);
+    await db.dbUpdate(
+      req.target,
+      { userid: req.jwt_user._id },
+      {
+        $set: { userid: req.jwt_user._id, [req.target]: [] }
+      }
+    );
+    res.status(200);
+    res.json({ success: `${req.target} is cleared` });
+  } catch (error) {
+    res.status(400);
+    res.json({ error: error });
+  }
+});
+
 module.exports = router;
