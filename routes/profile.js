@@ -47,10 +47,22 @@ router.get("/get", async function(req, res) {
 
 router.post("/get", async function(req, res) {
   try {
-    console.log("profile get request from id " + req.body._id);
+    const requesterId = req.body._id;
+    console.log("profile get request from id " + requesterId);
     let obj = await findProfile(req.query);
 
     if (obj) {
+      //check if the profile is in user's favourite
+      if (requesterId) {
+        let fav = await db.dbFind("favorite", { userid: ObjectID(requesterId) });
+        if (fav && fav.favorite) {
+          const found = fav.favorite.find(element => element.userid == obj._id);
+          obj.isFav = found ? true : false;
+        } else {
+          obj.isFav = false;
+        }
+      }
+
       delete obj.password;
       delete obj.email;
       delete obj.tokens;
@@ -63,6 +75,7 @@ router.post("/get", async function(req, res) {
       });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).send(error);
   }
 });
