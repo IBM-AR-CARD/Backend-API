@@ -47,7 +47,7 @@ router.post("/add", auth, async function(req, res) {
       {
         $set: { userid: req.jwt_user._id },
         $pull: {
-          [req.target]: { userid: req.body.userid }
+          list: { userid: req.body.userid }
         }
       }
     );
@@ -56,7 +56,7 @@ router.post("/add", auth, async function(req, res) {
       { userid: req.jwt_user._id },
       {
         $set: { userid: req.jwt_user._id },
-        $push: { [req.target]: { userid: req.body.userid, _id: ObjectID() } }
+        $push: { list: { userid: req.body.userid, _id: ObjectID() } }
       }
     );
 
@@ -76,7 +76,7 @@ router.post("/remove", auth, async function(req, res) {
       { userid: req.jwt_user._id },
       {
         $set: { userid: req.jwt_user._id },
-        $pull: { [req.target]: { userid: req.body.userid } }
+        $pull: { list: { userid: req.body.userid } }
       }
     );
     res.status(200);
@@ -94,7 +94,7 @@ router.post("/remove-all", auth, async function(req, res) {
       req.target,
       { userid: req.jwt_user._id },
       {
-        $set: { userid: req.jwt_user._id, [req.target]: [] }
+        $set: { userid: req.jwt_user._id, list: [] }
       }
     );
     res.status(200);
