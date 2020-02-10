@@ -55,8 +55,8 @@ router.post("/get", async function(req, res) {
       //check if the profile is in user's favourite
       if (requesterId) {
         let fav = await db.dbFind("favorite", { userid: ObjectID(requesterId) });
-        if (fav && fav.favorite) {
-          const found = fav.favorite.find(element => element.userid == obj._id);
+        if (fav && fav.list) {
+          const found = fav.list.find(element => element.userid == obj._id);
           obj.isFav = found ? true : false;
         } else {
           obj.isFav = false;

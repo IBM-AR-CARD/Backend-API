@@ -12,7 +12,7 @@ router.get("/get", auth, async function(req, res) {
     console.log(`get ${req.target} of id`, id);
     let obj = await db.dbFind(req.target, { userid: id });
     if (id != "dummy" && obj) {
-      for (let element of obj[req.target]) {
+      for (let element of obj.list) {
         let user = await db.dbFind("profiles", { _id: ObjectID(element.userid) });
         element.name = user.firstname + " " + user.lastname;
         element.profile = user.profile;
@@ -25,8 +25,8 @@ router.get("/get", auth, async function(req, res) {
       res.status(200);
       res.json(obj);
     } else {
-      res.status(400);
-      res.send({ error: "Not Found" });
+      res.status(200);
+      res.send({ list: [] });
     }
   } catch (error) {
     console.log(error);
