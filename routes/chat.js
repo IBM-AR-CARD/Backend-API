@@ -12,19 +12,28 @@ router.post("/", async (req, res) => {
     //TODO Add conversation logic
     // let response = `Server received question to ${user.username} from ${sender}.`;
     let response = await getWatsonResult(question.content);
+    let text = response.generic[0].text;
 
     await db.dbUpdate(
       "chats",
       { username: user.username },
       {
         $set: { username: user.username, userid: question.userid },
-        $push: { [sender]: { _id: ObjectID(), question: question.content, response: response } }
+        $push: {
+          [sender]: {
+            _id: ObjectID(),
+            question: question.content,
+            answer: text,
+            rawResponse: response
+          }
+        }
       }
     );
 
     res.status(200);
-    res.json({ type: "text", content: response });
+    res.json({ type: "text", answer: text, raw: response });
   } catch (error) {
+    console.log(error);
     res.status(400);
     res.json({ error: error });
   }
