@@ -14,6 +14,10 @@ router.get("/get", auth, async function(req, res) {
     if (id != "dummy" && obj) {
       for (let element of obj.list) {
         let user = await db.dbFind("profiles", { _id: ObjectID(element.userid) });
+        if (!user) {
+          console.log("Skipped one. User does not exist.");
+          continue;
+        }
         element.name = user.firstname + " " + user.lastname;
         element.profile = user.profile;
         element.username = user.username;
@@ -39,6 +43,10 @@ router.post("/add", auth, async function(req, res) {
 
   try {
     console.log(`add ${req.target} of id `, req.jwt_user._id);
+    let user = await db.dbFind("profiles", { _id: ObjectID(req.body.userid) });
+    if (!user) {
+      throw new Error("User does not exist");
+    }
     await db.dbUpdate(
       req.target,
       {
@@ -63,8 +71,9 @@ router.post("/add", auth, async function(req, res) {
     res.status(200);
     res.json({ success: `${req.target} updated` });
   } catch (error) {
+    console.log(error);
     res.status(400);
-    res.json({ error: error });
+    res.json({ error: error.message });
   }
 });
 
@@ -83,7 +92,7 @@ router.post("/remove", auth, async function(req, res) {
     res.json({ success: `${req.target} might be removed` });
   } catch (error) {
     res.status(400);
-    res.json({ error: error });
+    res.json({ error: error.message });
   }
 });
 
@@ -101,7 +110,7 @@ router.post("/remove-all", auth, async function(req, res) {
     res.json({ success: `${req.target} is cleared` });
   } catch (error) {
     res.status(400);
-    res.json({ error: error });
+    res.json({ error: error.message });
   }
 });
 
