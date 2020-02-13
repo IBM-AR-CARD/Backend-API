@@ -11,8 +11,10 @@ router.post("/", async (req, res) => {
     let sender = question.senderUsername ? question.senderUsername : "anonymous";
     //TODO Add conversation logic
     // let response = `Server received question to ${user.username} from ${sender}.`;
-    let response = await getWatsonResult(question.content, sender);
+    let response = await getWatsonResult(question.content, sender, user);
     let text = response.generic[0].text;
+
+    let processedText = handleResult(text, user);
 
     await db.dbUpdate(
       "chats",
@@ -23,7 +25,7 @@ router.post("/", async (req, res) => {
           [sender]: {
             _id: ObjectID(),
             question: question.content,
-            answer: text,
+            answer: processedText,
             rawResponse: response
           }
         }
@@ -31,7 +33,7 @@ router.post("/", async (req, res) => {
     );
 
     res.status(200);
-    res.json({ type: "text", answer: text, raw: response });
+    res.json({ type: "text", answer: processedText, raw: response });
   } catch (error) {
     console.log(error);
     res.status(400);
@@ -55,7 +57,6 @@ async function getWatsonResult(message, sender) {
       }
       let response = await assistant.sendMessage(sessionId, message);
       //   await assistant.deleteSession(sessionId);
-      //TODO session management
       if (response && response.result) {
         resolve(response.result.output);
       } else {
@@ -70,6 +71,24 @@ async function getWatsonResult(message, sender) {
       reject(error);
     }
   });
+}
+
+function handleResult(text, user) {
+  const actionRegex = /%%.+[*].+%%/gi;
+  const match = text.match(actionRegex);
+  if (match) {
+    const part = match[0].replace(/%%/gi, "").split("*");
+    const content = user[part[1]];
+    if (part[0] == "profile") {
+      if (content) {
+        return content;
+      } else {
+        return "I haven't wrote my " + part[1] + " yet, check back later!";
+      }
+    }
+  }
+  const name = user.firstname && user.lastname ? user.firstname + " " + user.lastname : "(Unkown)";
+  return text.replace(/[*][*]name[*][*]/gi, name);
 }
 
 module.exports = router;
