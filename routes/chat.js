@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
     let sender = question.senderUsername ? question.senderUsername : "anonymous";
     //TODO Add conversation logic
     // let response = `Server received question to ${user.username} from ${sender}.`;
-    let response = await getWatsonResult(question.content);
+    let response = await getWatsonResult(question.content, sender);
     let text = response.generic[0].text;
 
     await db.dbUpdate(
@@ -39,15 +39,22 @@ router.post("/", async (req, res) => {
   }
 });
 
-const watsonSessions = {};
+// watson sessions stores key (sender username) value (session id) pair
+let watsonSessions = {};
 
-function getWatsonResult(message, user) {
+function getWatsonResult(message, sender) {
   return new Promise(async function(resolve, reject) {
     try {
-      let sessionId = await assistant.createSession();
-      sessionId = sessionId.result.session_id;
+      let sessionId;
+      if (watsonSessions[sender]) {
+        sessionId = watsonSessions[sender];
+      } else {
+        sessionId = await assistant.createSession();
+        sessionId = sessionId.result.session_id;
+        watsonSessions[sender] = sessionId;
+      }
       let response = await assistant.sendMessage(sessionId, message);
-      await assistant.deleteSession(sessionId);
+      //   await assistant.deleteSession(sessionId);
       //TODO session management
       if (response && response.result) {
         resolve(response.result.output);
