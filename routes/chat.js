@@ -42,7 +42,7 @@ router.post("/", async (req, res) => {
 // watson sessions stores key (sender username) value (session id) pair
 let watsonSessions = {};
 
-function getWatsonResult(message, sender) {
+async function getWatsonResult(message, sender) {
   return new Promise(async function(resolve, reject) {
     try {
       let sessionId;
@@ -62,6 +62,11 @@ function getWatsonResult(message, sender) {
         reject("no res");
       }
     } catch (error) {
+      if (error.message == "Invalid Session") {
+        delete watsonSessions[sender];
+        console.log("session removed!!!!!!!!");
+        resolve(await getWatsonResult(message, sender));
+      }
       reject(error);
     }
   });
