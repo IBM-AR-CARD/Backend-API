@@ -18,6 +18,15 @@ router.get("/get", auth, async function(req, res) {
           console.log("Skipped one. User does not exist.");
           continue;
         }
+        // find is fav of the requester
+        let fav = await db.dbFind("favorite", { userid: ObjectID(id) });
+        if (fav && fav.list) {
+          const found = fav.list.find(element2 => element2.userid == element.userid);
+          element.isFav = found ? true : false;
+        } else {
+          element.isFav = false;
+        }
+
         element.name = user.firstname + " " + user.lastname;
         element.profile = user.profile;
         element.username = user.username;

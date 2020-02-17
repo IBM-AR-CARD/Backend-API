@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
 // watson sessions stores key (sender username) value (session id) pair
 let watsonSessions = {};
 
-async function getWatsonResult(message, sender) {
+function getWatsonResult(message, sender) {
   return new Promise(async function(resolve, reject) {
     try {
       let sessionId;
