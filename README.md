@@ -11,5 +11,8 @@ We are using cloud services include:
 - [Azure](https://azure.com) provided by UCL
 
 # Documentation
-    [View the documentation](https://IBM-AR-CARD.github.io/API-Documentation/).
-    Documentation for IBM AR Card API available at [IBM-AR-CARD/API-Documentation](https://github.com/IBM-AR-CARD/API-Documentation/).
+
+[View the documentation](https://IBM-AR-CARD.github.io/API-Documentation/).
+
+
+Documentation for IBM AR Card API available at [IBM-AR-CARD/API-Documentation](https://github.com/IBM-AR-CARD/API-Documentation/).
