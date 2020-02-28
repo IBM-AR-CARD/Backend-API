@@ -9,16 +9,18 @@ const auth = require("../include/auth");
 router.get("/get", auth, async function(req, res) {
   try {
     let id = req.query._id == "dummy" ? "dummy" : req.jwt_user._id;
+    //req.target is either history or favorite
     console.log(`get ${req.target} of id`, id);
-    let obj = await db.dbFind(req.target, { userid: id });
-    if (id != "dummy" && obj) {
-      for (let element of obj.list) {
+    let targetResult = await db.dbFind(req.target, { userid: id });
+    if (id != "dummy" && targetResult) {
+      //element is one target item of the item (history or favourite) lists
+      for (let element of targetResult.list) {
         let user = await db.dbFind("profiles", { _id: ObjectID(element.userid) });
         if (!user) {
           console.log("Skipped one. User does not exist.");
           continue;
         }
-        // find is fav of the requester
+        // find is the item faved by the requester
         let fav = await db.dbFind("favorite", { userid: ObjectID(id) });
         if (fav && fav.list) {
           const found = fav.list.find(element2 => element2.userid == element.userid);
@@ -34,9 +36,9 @@ router.get("/get", auth, async function(req, res) {
       }
     }
 
-    if (obj && obj != {}) {
+    if (targetResult && targetResult != {}) {
       res.status(200);
-      res.json(obj);
+      res.json(targetResult);
     } else {
       res.status(200);
       res.send({ list: [] });
