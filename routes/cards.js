@@ -18,7 +18,6 @@ router.get("/get", auth, async function(req, res) {
         let user = await db.dbFind("profiles", { _id: ObjectID(element.userid) });
         if (!user) {
           console.log("Skipped one. User does not exist.");
-          element.name = "[User Removed]";
           element.removed = true;
           continue;
         }
@@ -36,6 +35,8 @@ router.get("/get", auth, async function(req, res) {
         element.username = user.username;
         element.userid = user._id;
       }
+
+      targetResult.list = targetResult.list.filter(user => !user.removed);
     }
 
     if (targetResult && targetResult != {}) {
