@@ -36,6 +36,7 @@ router.get("/get", auth, async function(req, res) {
         element.userid = user._id;
       }
 
+      //TODO also clean the original list (db.update)
       targetResult.list = targetResult.list.filter(user => !user.removed);
     }
 

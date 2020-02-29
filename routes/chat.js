@@ -9,8 +9,7 @@ router.post("/", async (req, res) => {
     let question = req.body;
     let user = await db.dbFind("profiles", { _id: ObjectID(question.userid) }); // reciver (being requested)
     let sender = question.senderUsername ? question.senderUsername : "anonymous";
-    //TODO Add conversation logic
-    // let response = `Server received question to ${user.username} from ${sender}.`;
+
     let response = await getWatsonResult(question.content, sender, user);
     let text = response.generic[0].text;
 
