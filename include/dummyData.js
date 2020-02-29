@@ -45,10 +45,7 @@ async function generateHistoryProfile() {
 
   return {
     _id: ObjectID(),
-    name: name,
     isDummy: true,
-    username: randomUserName,
-    profile: profileImage,
     userid: userObj._id,
     isFav: false
   };
