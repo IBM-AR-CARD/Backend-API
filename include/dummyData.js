@@ -14,6 +14,20 @@ const randomFrom = arr => {
 
 async function generateHistoryProfile() {
   let name = randomFrom(["Jerry", "Leo", "Yide", "John", "Yoyo", "Davies"]);
+  let model = randomFrom([
+    "ManInSuit",
+    "BusinessWomanPFB",
+    "TestMale",
+    "Luffy",
+    "FitFemale",
+    "Jiraiya",
+    "YodaRigged",
+    "BusinessMale",
+    "BusinessFemale",
+    "SmartMale",
+    "UnityChan",
+    "SmartFemale"
+  ]);
   let description = randomFrom([
     "Student",
     "Software Developer",
@@ -31,8 +45,8 @@ async function generateHistoryProfile() {
     isDummy: true,
     firstname: name,
     lastname: "Dummy",
-    model: "TestMale",
-    description: "Dummy description",
+    model: model,
+    description: "Dummy description: " + description,
     experience: "Dummy Experience",
     education: "Dummy Education",
     username: randomUserName,
