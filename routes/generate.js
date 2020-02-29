@@ -17,18 +17,24 @@ router.get("/profile", async function(req, res) {
   res.send("SUCCESS");
 });
 
-router.get("/history", function(req, res) {
+router.get("/history", async function(req, res) {
   let id = req.query._id ? req.query._id : "dummy";
   db.dbDeleteMany("history", { userid: id });
-  db.dbInsert("history", dummy.getHistoryDummy(id));
+  db.dbInsert("history", await dummy.getHistoryDummy(id));
   res.status(200);
   res.send("SUCCESS");
 });
 
-router.get("/favorite", function(req, res) {
+router.get("/favorite", async function(req, res) {
   let id = req.query._id ? req.query._id : "dummy";
   db.dbDeleteMany("favorite", { userid: id });
-  db.dbInsert("favorite", dummy.getHistoryDummy(id));
+  db.dbInsert("favorite", await dummy.getHistoryDummy(id));
+  res.status(200);
+  res.send("SUCCESS");
+});
+
+router.get("/clear-dummy", async function(req, res) {
+  db.dbDeleteMany("profiles", { isDummy: true });
   res.status(200);
   res.send("SUCCESS");
 });

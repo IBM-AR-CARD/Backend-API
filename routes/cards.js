@@ -11,7 +11,7 @@ router.get("/get", auth, async function(req, res) {
     let id = req.query._id == "dummy" ? "dummy" : req.jwt_user._id;
     //req.target is either history or favorite
     console.log(`get ${req.target} of id`, id);
-    let targetResult = await db.dbFind(req.target, { userid: id });
+    let targetResult = await db.dbFind(req.target, { userid: id + "" });
     if (id != "dummy" && targetResult) {
       //element is one target item of the item (history or favourite) lists
       for (let element of targetResult.list) {

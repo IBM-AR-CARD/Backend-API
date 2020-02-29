@@ -1,3 +1,6 @@
+let ObjectID = require("mongodb").ObjectID;
+let db = require("./db.js");
+
 function getRandomProfileImage(male) {
   let gender = male ? "men" : "women";
   let url = `https://randomuser.me/api/portraits/${gender}/${Math.floor(Math.random() * 30) +
@@ -9,8 +12,8 @@ const randomFrom = arr => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
-function generateHistoryProfile() {
-  let name = randomFrom(["Jerry", "Leo", "Yide Fan", "John", "Henry", "Davies"]);
+async function generateHistoryProfile() {
+  let name = randomFrom(["Jerry", "Leo", "Yide", "John", "Yoyo", "Davies"]);
   let description = randomFrom([
     "Student",
     "Software Developer",
@@ -19,12 +22,35 @@ function generateHistoryProfile() {
     "Professor",
     "Doctor"
   ]);
+  let profileImage = getRandomProfileImage(randomFrom(["men", "women"]));
+
+  let randomUserName = Math.random() * 10000000 + "";
+
+  let newUser = {
+    profile: profileImage,
+    isDummy: true,
+    firstname: name,
+    lastname: "Dummy",
+    model: "TestMale",
+    description: "Dummy description",
+    experience: "Dummy Experience",
+    education: "Dummy Education",
+    username: randomUserName,
+    gender: 0
+  };
+
+  await db.dbInsert("profiles", newUser);
+
+  let userObj = await db.dbFind("profiles", { username: randomUserName });
 
   return {
+    _id: ObjectID(),
     name: name,
-    username: description,
-    profile: getRandomProfileImage(randomFrom(["men", "women"])),
-    userid: ""
+    isDummy: true,
+    username: randomUserName,
+    profile: profileImage,
+    userid: userObj._id,
+    isFav: false
   };
 }
 
@@ -113,17 +139,20 @@ module.exports = {
     }
   },
 
-  getHistoryDummy: function(userid) {
+  getHistoryDummy: async function(userid) {
+    const list = [
+      await generateHistoryProfile(),
+      await generateHistoryProfile(),
+      await generateHistoryProfile(),
+      await generateHistoryProfile(),
+      await generateHistoryProfile(),
+      await generateHistoryProfile()
+    ];
+    console.log(list);
+
     return {
       userid: userid ? userid : "dummy",
-      list: [
-        generateHistoryProfile(),
-        generateHistoryProfile(),
-        generateHistoryProfile(),
-        generateHistoryProfile(),
-        generateHistoryProfile(),
-        generateHistoryProfile()
-      ]
+      list: list
     };
   }
 };
