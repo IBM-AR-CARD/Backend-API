@@ -35,6 +35,8 @@ router.get("/favorite", async function(req, res) {
 
 router.get("/clear-dummy", async function(req, res) {
   db.dbDeleteMany("profiles", { isDummy: true });
+  db.dbDeleteMany("history", { isDummy: true });
+  db.dbDeleteMany("favorite", { isDummy: true });
   res.status(200);
   res.send("SUCCESS");
 });

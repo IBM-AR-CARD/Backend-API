@@ -148,7 +148,8 @@ module.exports = {
     console.log(list);
 
     return {
-      userid: userid ? userid : "dummy",
+      userid: userid ? ObjectID(userid) : "dummy",
+      isDummy: true,
       list: list
     };
   }
