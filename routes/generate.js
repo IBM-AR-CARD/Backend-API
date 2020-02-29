@@ -19,7 +19,7 @@ router.get("/profile", async function(req, res) {
 
 router.get("/history", async function(req, res) {
   let id = req.query._id ? req.query._id : "dummy";
-  db.dbDeleteMany("history", { userid: id });
+  db.dbDeleteMany("history", { userid: ObjectID(id) });
   db.dbInsert("history", await dummy.getHistoryDummy(id));
   res.status(200);
   res.send("SUCCESS");
@@ -27,7 +27,7 @@ router.get("/history", async function(req, res) {
 
 router.get("/favorite", async function(req, res) {
   let id = req.query._id ? req.query._id : "dummy";
-  db.dbDeleteMany("favorite", { userid: id });
+  db.dbDeleteMany("favorite", { userid: ObjectID(id) });
   db.dbInsert("favorite", await dummy.getHistoryDummy(id));
   res.status(200);
   res.send("SUCCESS");
