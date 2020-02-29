@@ -18,6 +18,8 @@ router.get("/get", auth, async function(req, res) {
         let user = await db.dbFind("profiles", { _id: ObjectID(element.userid) });
         if (!user) {
           console.log("Skipped one. User does not exist.");
+          element.name = "[User Removed]";
+          element.removed = true;
           continue;
         }
         // find is the item faved by the requester
