@@ -45,6 +45,8 @@ async function generateHistoryProfile() {
     isDummy: true,
     firstname: name,
     lastname: "Dummy",
+    phone: "12345678901",
+    website: "http://ar-card.henryz.cc/",
     model: model,
     description: "Dummy description: " + description,
     experience: "Dummy Experience",
@@ -60,8 +62,7 @@ async function generateHistoryProfile() {
   return {
     _id: ObjectID(),
     isDummy: true,
-    userid: userObj._id,
-    isFav: false
+    userid: userObj._id
   };
 }
 
@@ -71,6 +72,8 @@ module.exports = {
       profile: "",
       firstname: "",
       lastname: "",
+      phone: "",
+      website: "",
       model: "TestMale",
       description: "",
       experience: "",
@@ -84,6 +87,8 @@ module.exports = {
       dummyid: "dummy1",
       username: "jonmcnamara",
       email: "john@ucl.ac.uk",
+      phone: "12345678901",
+      website: "ar-card.henryz.cc",
       password: "$2a$08$C4AgFAgj8a0BCYZpCexqx.Tl8p42.hSs6Jm7guc9oBWx3N928zU0q", //content: password
       profile:
         "https://media-exp2.licdn.com/dms/image/C5603AQFA_oQhi6-2Cg/profile-displayphoto-shrink_800_800/0?e=1584576000&v=beta&t=QfVEJg5DU7IHXBiUlaZ2nRjI5gHTqok20eL17iHHa8Y",
@@ -104,6 +109,8 @@ module.exports = {
       dummyid: "dummy2",
       username: "amy-pajak",
       email: "amy@ucl.ac.uk",
+      phone: "12345678901",
+      website: "ar-card.henryz.cc",
       password: "$2a$08$C4AgFAgj8a0BCYZpCexqx.Tl8p42.hSs6Jm7guc9oBWx3N928zU0q", //content: password
       profile:
         "https://media-exp2.licdn.com/dms/image/C4D03AQExd7JsyU2Tpg/profile-displayphoto-shrink_200_200/0?e=1585785600&v=beta&t=p7hUIBZicJePvZmsWMxnXsMmr8JXF1viJ3t7P8YcL_g",
@@ -125,6 +132,8 @@ module.exports = {
       dummyid: "dummy3",
       username: "ben-jones",
       email: "ben@ucl.ac.uk",
+      phone: "12345678901",
+      website: "ar-card.henryz.cc",
       password: "$2a$08$C4AgFAgj8a0BCYZpCexqx.Tl8p42.hSs6Jm7guc9oBWx3N928zU0q", //content: password
       profile:
         "https://media-exp2.licdn.com/dms/image/C4D03AQEjXfWTiKt73Q/profile-displayphoto-shrink_200_200/0?e=1585785600&v=beta&t=1zaOuMMabdVx5ozcYR8KHOBSkjl_K83H7mQCKxdcfH8",
