@@ -36,7 +36,7 @@ async function generateHistoryProfile() {
     "Professor",
     "Doctor"
   ]);
-  let profileImage = getRandomProfileImage(randomFrom(["men", "women"]));
+  let profileImage = getRandomProfileImage(randomFrom([true, false]));
 
   let randomUserName = "Dummy." + Math.random() * 10000000;
 
