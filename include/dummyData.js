@@ -62,7 +62,7 @@ async function generateHistoryProfile() {
   return {
     _id: ObjectID(),
     isDummy: true,
-    userid: userObj._id
+    userid: userObj._id.toString()
   };
 }
 
