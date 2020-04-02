@@ -59,10 +59,11 @@ async function generateHistoryProfile() {
 
   let userObj = await db.dbFind("profiles", { username: randomUserName });
 
+  console.log("!!!", userObj._id, userObj._id.toString());
   return {
     _id: ObjectID(),
     isDummy: true,
-    userid: userObj._id.toString()
+    userid: userObj._id.toString() + ""
   };
 }
 
