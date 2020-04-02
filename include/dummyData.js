@@ -96,9 +96,9 @@ module.exports = {
       model: "TestMale",
       description:
         "John is a Senior Inventor, Research Fellow, Impact Fellow and currently provides technical leadership for the IBM Hursley Innovation Centre. John has a diverse background that includes consultancy, performance, service & product delivery, all underpinned by a passion for innovation.",
-      experience: "Senior Inventor at IBM and Hursley Innovation Labs Technologist Lead",
+      experience: "I am a Senior Inventor at IBM and Hursley Innovation Labs Technologist",
       education:
-        "I have studied at University of Humberside, on Field Of StudyInformation Systems. And received a 2:1 Grade",
+        "I have studied at University of Humberside, on Information Systems. And received a 2:1 Grade",
       gender: 2
     };
   },
@@ -116,7 +116,7 @@ module.exports = {
       lastname: "Pajak",
       model: "BusinessFemale",
       description:
-        "Second year student at the University of Birmingham reading BSc Artificial Intelligence and Computer Science with Industrial Year. Passionate for code. I possess necessary programming skills and well-developed social skills. Flexible attitude to work and strong organisational skills for a variety of situations to achieve deadlines. Strong initiative and can work independently or as part of a team. ",
+        "I am a Second year student at the University of Birmingham reading BSc Artificial Intelligence and Computer Science with Industrial Year. Passionate for code. I possess necessary programming skills and well-developed social skills. Flexible attitude to work and strong organisational skills for a variety of situations to achieve deadlines. Strong initiative and can work independently or as part of a team. ",
       experience:
         "Software Developer Placement at IBM. Placement year as L3 Support Engineer in cloud and cognitive software primarily working in C++ and Java.",
       education:
