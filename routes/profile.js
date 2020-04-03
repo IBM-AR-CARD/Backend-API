@@ -33,7 +33,8 @@ router.get("/get", async function(req, res) {
 
     if (obj) {
       res.status(200);
-      res.send(`Want to view ${obj.firstname}'s AR Avatar? Download our router!`);
+      res.send(`Want to view ${obj.firstname}'s AR Avatar? Download our app!
+                <br><a href="http://ar-card.henryz.cc/">Download now</a>`);
     } else {
       res.status(400);
       res.json({
