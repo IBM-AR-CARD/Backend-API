@@ -5,15 +5,19 @@ let ObjectID = require("mongodb").ObjectID;
 
 //------------- Profile API -------------
 
-router.post("/update", async function(req, res) {
+router.post("/update", async function (req, res) {
   try {
+    req.body.website = req.body.website
+      .replace("http://", "")
+      .replace("https://", "")
+      .replace("www.", "");
     await db.dbUpdate("profiles", { _id: ObjectID(req.body._id) }, { $set: req.body });
     res.status(200);
     res.send("Received, profile updated.");
   } catch (error) {
     res.status(400);
     res.json({
-      error: error
+      error: error,
     });
   }
 });
@@ -27,7 +31,7 @@ async function findProfile(body) {
   return obj;
 }
 
-router.get("/get", async function(req, res) {
+router.get("/get", async function (req, res) {
   try {
     let obj = await findProfile(req.query);
 
@@ -38,7 +42,7 @@ router.get("/get", async function(req, res) {
     } else {
       res.status(400);
       res.json({
-        error: "not-found"
+        error: "not-found",
       });
     }
   } catch (error) {
@@ -46,7 +50,7 @@ router.get("/get", async function(req, res) {
   }
 });
 
-router.post("/get", async function(req, res) {
+router.post("/get", async function (req, res) {
   try {
     const requesterId = req.body._id;
     console.log("profile get request from id " + requesterId);
@@ -57,7 +61,7 @@ router.post("/get", async function(req, res) {
       if (requesterId) {
         let fav = await db.dbFind("favorite", { userid: ObjectID(requesterId) });
         if (fav && fav.list) {
-          const found = fav.list.find(element => element.userid == obj._id);
+          const found = fav.list.find((element) => element.userid == obj._id);
           obj.isFav = found ? true : false;
         } else {
           obj.isFav = false;
@@ -71,7 +75,7 @@ router.post("/get", async function(req, res) {
     } else {
       res.status(400);
       res.json({
-        error: "not-found"
+        error: "not-found",
       });
     }
   } catch (error) {
