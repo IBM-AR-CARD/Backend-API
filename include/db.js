@@ -1,18 +1,18 @@
 let MongoClient = require("mongodb").MongoClient;
 let dbo = null;
 
-MongoClient.connect(process.env.MONGODB_URL, function(err, db) {
+MongoClient.connect(process.env.MONGODB_URL, function (err, db) {
   if (err) throw err;
-  dbo = db.db("ar_card_db", {
+  dbo = db.db(process.env.DB_NAME, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   });
 });
 
 module.exports = {
-  dbFind: async function(collection, query) {
-    return new Promise(function(resolve, reject) {
-      dbo.collection(collection).findOne(query, function(err, items) {
+  dbFind: async function (collection, query) {
+    return new Promise(function (resolve, reject) {
+      dbo.collection(collection).findOne(query, function (err, items) {
         if (err) {
           console.error(err);
           reject(err);
@@ -24,9 +24,9 @@ module.exports = {
     });
   },
 
-  dbDelete: function(collection, query) {
-    return new Promise(function(resolve, reject) {
-      dbo.collection(collection).deleteOne(query, function(err, obj) {
+  dbDelete: function (collection, query) {
+    return new Promise(function (resolve, reject) {
+      dbo.collection(collection).deleteOne(query, function (err, obj) {
         if (err) {
           console.error(err);
           reject(err);
@@ -38,9 +38,9 @@ module.exports = {
     });
   },
 
-  dbDeleteMany: function(collection, query) {
-    return new Promise(function(resolve, reject) {
-      dbo.collection(collection).deleteMany(query, function(err, obj) {
+  dbDeleteMany: function (collection, query) {
+    return new Promise(function (resolve, reject) {
+      dbo.collection(collection).deleteMany(query, function (err, obj) {
         if (err) {
           console.error(err);
           reject(err);
@@ -52,9 +52,9 @@ module.exports = {
     });
   },
 
-  dbInsert: function(collection, content) {
-    return new Promise(function(resolve, reject) {
-      dbo.collection(collection).insert(content, function(err, items) {
+  dbInsert: function (collection, content) {
+    return new Promise(function (resolve, reject) {
+      dbo.collection(collection).insert(content, function (err, items) {
         if (err) {
           console.error(err);
           reject(err);
@@ -66,22 +66,20 @@ module.exports = {
     });
   },
 
-  dbUpdate: async function(collection, query, update) {
+  dbUpdate: async function (collection, query, update) {
     if (update.$set) delete update.$set._id;
 
-    return new Promise(function(resolve, reject) {
-      dbo
-        .collection(collection)
-        .updateOne(query, update, { upsert: true }, function(err, obj) {
-          if (err) {
-            console.error(err);
-            reject(err);
-          } else {
-            console.log(update);
-            console.log("dbUpdate - 1 document updated! query: ", query);
-            resolve();
-          }
-        });
+    return new Promise(function (resolve, reject) {
+      dbo.collection(collection).updateOne(query, update, { upsert: true }, function (err, obj) {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          console.log(update);
+          console.log("dbUpdate - 1 document updated! query: ", query);
+          resolve();
+        }
+      });
     });
-  }
+  },
 };
